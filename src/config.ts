@@ -79,10 +79,10 @@ export const themeConfig: ThemeConfig = {
     // giscus
     // https://giscus.app/
     giscus: {
-      repo: '',
-      repoID: '',
-      category: '',
-      categoryID: '',
+      repo: 'analyticinterp/analyticinterp.github.io',
+      repoID: 'R_kgDOO_nSsA',
+      category: 'General',
+      categoryID: 'DIC_kwDOO_nSsM4Cr0lT',
       mapping: 'pathname',
       strict: '0',
       reactionsEnabled: '1',
