@@ -33,7 +33,7 @@ const imageConfig = imageHostURL
 
 export default defineConfig({
   site: url,
-  base: '/github-pages',
+  base: '/',
   trailingSlash: 'always',
   prefetch: {
     prefetchAll: true,
