@@ -142,7 +142,7 @@ export async function generateFeed({ lang }: GenerateFeedOptions = {}) {
     id: siteURL,
     link: siteURL,
     language: lang || themeConfig.global.locale,
-    copyright: `Copyright © ${new Date().getFullYear()} ${siteAuthor}`,
+    // copyright: `Copyright © ${new Date().getFullYear()} ${siteAuthor}`,
     updated: new Date(),
     generator: 'Astro-Theme-Retypeset with Feed for Node.js',
     feedLinks: {
