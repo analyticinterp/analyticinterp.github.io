@@ -138,7 +138,7 @@ def generate_index(posts, output_dir):
                 date_str = ''
             
             # Build the post entry
-            entry_html = f'''      <a href="/{post['slug']}.html" class="post-entry">
+            entry_html = f'''      <a href="{post['slug']}.html" class="post-entry">
         <h3>{post['title']}</h3>'''
             
             # Add author if different from default

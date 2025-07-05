@@ -7,13 +7,14 @@
   --link-color: #0645ad;  /* Traditional academic blue */
   --link-visited: #0b0080;  /* Traditional visited purple */
   --link-hover: #06e;
-  --code-bg: #f8f8f8;
+  --code-bg: #f9f8f6;
   --border-color: #ddd;
   --blockquote-color: #666;
   --meta-color: #666;
 }
 
-/* Dark mode - softer contrast */
+/* Dark mode - softer contrast (disabled by default) */
+/* 
 @media (prefers-color-scheme: dark) {
   :root {
     --text-color: #ddd;
@@ -29,9 +30,10 @@
   }
   
   .post-entry:hover {
-    background: rgba(255, 255, 255, 0.02);  /* Subtle light overlay for dark mode */
+    background: rgba(255, 255, 255, 0.02);
   }
 }
+*/
 
 /* Base styles */
 body {
