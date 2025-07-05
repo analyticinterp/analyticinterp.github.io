@@ -1,6 +1,6 @@
 ---
 title: "On the Universality of Transformer Representations"
-author: "Blake Bordelon"
+author: "No one"
 date: "2025-01-15"
 description: "We prove that transformer networks with sufficient width and depth can approximate any continuous sequence-to-sequence function, extending classical universality results to the attention mechanism."
 ---
