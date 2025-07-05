@@ -31,31 +31,48 @@ $$\int_0^\infty e^{-x^2} dx = \frac{\sqrt{\pi}}{2}$$
 
 ### Development
 
+We provide two scripts to preview the site:
+
+**Option 1: Auto-reload development server (recommended)**
 ```bash
-# Development server with auto-reload (recommended)
 python dev-server.py
+```
+This server automatically rebuilds and reloads the site whenever you make a change to a markdown file. This allows you to preview your post as it will appear on the site in real time.
 
-# Simple live preview (manual refresh)
+**Option 2: Simple file watcher**
+```bash
 python watch-simple.py
+```
+This watches for file changes and rebuilds the site, but requires manual browser refresh. Uses only Python standard library (no external dependencies).
 
-# Manual build
+**Manual build only:**
+```bash
 python build.py
 ```
 
 ### Deployment
 
+#### Option 1: Manual Deployment (Recommended for Control)
+
 ```bash
-# Build and commit
-./deploy.sh
-git push
+# Build the site
+python build.py
+
+# Commit your post
+git add posts/2025-01-21-my-new-post.md  # Add specific post
+git add docs/                            # Add built site
+git commit -m "Add: new post about transformers"
+
+# Push to GitHub
+git push origin main
 ```
 
-Configure GitHub Pages to serve from the `docs/` directory.
+#### Option 2: Quick Deployment Script
 
-**If you get "Address already in use" errors:**
 ```bash
-# Kill any running servers
-pkill -f "python.*server"
+# Builds site and commits everything
+./deploy.sh
+git push
 ```
 
 ## Features
