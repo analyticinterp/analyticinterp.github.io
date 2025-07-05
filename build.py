@@ -159,40 +159,11 @@ def generate_index(posts, output_dir):
             
             post_html.append(entry_html)
     
-    # About content
-    about_content = """
-      <p>Analytic Interpretability is a team of scientists scattered all over the world trying to understand the mysteries of deep learning. As Jamie put it, we're all exploring a big maze, looking for the exit. Most people in our field are wandering around rather unproductively (or are carefully mapping regions of the maze we know don't contain the exit). A few of us have been earnestly exploring the maze for several years now and have good ideas for promising places to look next. It makes sense to develop a collective map of the regions we've explored, flag the crucial splits, and start saying "you go left, I'll go right, report back."</p>
-      
-      <p>The team is made up of various PhD students/postdocs/profs:</p>
-      
-      <ul>
-        <li><a href="https://abatanasov.com/">Alex Atanasov</a></li>
-        <li><a href="https://jeremybernste.in/">Jeremy Bernstein</a></li>
-        <li><a href="https://blakebordelon.github.io/">Blake Bordelon</a></li>
-        <li><a href="https://jmcohen.github.io/">Jeremy Cohen</a></li>
-        <li><a href="https://web.math.princeton.edu/~ad27/">Alex Damian</a></li>
-        <li><a href="https://nikhil-ghosh-berkeley.github.io/">Nikhil Ghosh</a></li>
-        <li><a href="https://florentinguth.github.io/">Florentin Guth</a></li>
-        <li><a href="https://sites.google.com/view/arthurjacot">Arthur Jacot</a></li>
-        <li><a href="https://dkarkada.xyz/">Dhruva Karkada</a></li>
-        <li><a href="https://daniel-kunin.com/">Daniel Kunin</a></li>
-        <li><a href="https://alexandrumeterez.github.io/">Alex Meterez</a></li>
-        <li><a href="https://ericjmichaud.com/">Eric Michaud</a></li>
-        <li><a href="https://misiakie.github.io/">Theodor Misiakiewicz</a></li>
-        <li><a href="https://berkan.xyz/">Berkan Ottlik</a></li>
-        <li><a href="https://aditradha.com/">Adit Radha</a></li>
-        <li><a href="https://james-simon.github.io/">Jamie Simon</a></li>
-        <li><a href="https://www.linkedin.com/in/joey-turnbull/">Joey Turnbull</a></li>
-        <li><a href="https://jzv.io/">Jacob Zavatone-Veth</a></li>
-      </ul>
-    """
-    
-    # Read template and replace placeholders
+        # Read template and replace placeholders
     with open('templates/index.html', 'r') as f:
         template = f.read()
-    
+
     html = template.replace('<!-- POSTS_PLACEHOLDER -->', '\n'.join(post_html))
-    html = html.replace('<!-- ABOUT_PLACEHOLDER -->', about_content)
     
     # Write index file
     with open(output_dir / 'index.html', 'w') as f:
