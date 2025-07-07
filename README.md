@@ -2,6 +2,7 @@
 
 Static blog generator using pandoc with LaTeX math support and GitHub comments.
 
+
 ## Prerequisites
 
 - Python 3.6+
