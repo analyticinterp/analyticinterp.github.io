@@ -1,0 +1,354 @@
+/* Minimal academic blog styles - inspired by traditional academic papers */
+:root {
+  --max-width: 42em;  /* Narrower for focused reading */
+  --text-color: #444;
+  --heading-color: #111;
+  --bg-color: #fefefe;  /* Warmer off-white */
+  --link-color: #0645ad;  /* Traditional academic blue */
+  --link-visited: #0b0080;  /* Traditional visited purple */
+  --link-hover: #06e;
+  --code-bg: #f9f8f6;
+  --border-color: #ddd;
+  --blockquote-color: #666;
+  --meta-color: #666;
+}
+
+/* Dark mode - softer contrast (disabled by default) */
+/* 
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-color: #ddd;
+    --heading-color: #eee;
+    --bg-color: #1a1a1a;
+    --link-color: #69b7ff;
+    --link-visited: #b19cd9;
+    --link-hover: #89cff0;
+    --code-bg: #2a2a2a;
+    --border-color: #444;
+    --blockquote-color: #aaa;
+    --meta-color: #999;
+  }
+  
+  .post-entry:hover {
+    background: rgba(255, 255, 255, 0.02);
+  }
+}
+*/
+
+/* Base styles */
+body {
+  font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 18px;  /* Slightly smaller than their 20px for better screen reading */
+  line-height: 1.7;
+  color: var(--text-color);
+  background: var(--bg-color);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2em;
+}
+
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--heading-color);
+  line-height: 1.25;
+  margin-top: 1.4em;
+  margin-bottom: 0.5em;
+  font-weight: normal;  /* More elegant, less bold */
+}
+
+h1 { 
+  font-size: 1.8em;
+  text-align: left;  /* Left-align titles */
+  margin-bottom: 0.5em;
+}
+h2 { font-size: 1.4em; }
+h3 { font-size: 1.2em; }
+h4 { font-size: 1.1em; font-weight: bold; }
+h5 { font-size: 1em; font-weight: bold; }
+h6 { font-size: 0.9em; font-weight: bold; }
+
+/* Paragraphs */
+p {
+  margin: 1em 0;
+  text-align: justify;  /* Traditional academic style */
+  hyphens: auto;
+}
+
+/* Links - traditional academic colors */
+a {
+  color: var(--link-color);
+  text-decoration: none;
+}
+
+a:visited {
+  color: var(--link-visited);
+}
+
+a:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+/* Code blocks */
+pre {
+  background: var(--code-bg);
+  padding: 1em;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
+code {
+  font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+  font-size: 0.85em;
+  background: var(--code-bg);
+  padding: 0.2em 0.4em;
+  border-radius: 2px;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: 1em;
+}
+
+/* Blockquotes */
+blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 3px solid var(--border-color);
+  color: var(--blockquote-color);
+  font-style: italic;
+}
+
+/* Math display */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1em 0;
+}
+
+/* Article metadata */
+.metadata {
+  color: var(--meta-color);
+  font-size: 0.9em;
+  text-align: left;
+  margin-bottom: 2em;
+  font-style: italic;
+}
+
+/* Post list on index */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Date headers */
+.date-header {
+  margin-top: 3em;
+  margin-bottom: 1em;
+  padding-bottom: 0.5em;
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 0.8em;
+  color: var(--meta-color);
+  border-bottom: 1px solid var(--meta-color);
+}
+
+.date-header:first-child {
+  margin-top: 0;
+}
+
+/* Post entries */
+.post-entry {
+  display: block;
+  text-decoration: none;
+  color: var(--text-color);
+  background: var(--code-bg);
+  padding: 1.5em;
+  margin-bottom: 0.5em;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.post-entry:hover {
+  border-left-color: var(--meta-color);
+  background: rgba(0, 0, 0, 0.02);  /* Very subtle background change */
+}
+
+.post-entry h3 {
+  font-size: 1.15em;
+  margin: 0 0 0.5em 0;
+  color: var(--heading-color);
+  font-weight: normal;
+  transition: color 0.2s ease;
+}
+
+.post-entry:hover h3 {
+  color: var(--link-color);
+}
+
+.post-byline {
+  font-style: italic;
+  color: var(--meta-color);
+  margin-bottom: 0.5em;
+  font-size: 0.9em;
+}
+
+.post-description {
+  color: var(--text-color);
+  line-height: 1.5;
+  font-size: 0.95em;
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 3em 0;
+}
+
+/* About section */
+.about-section {
+  margin-top: 2em;
+}
+
+.about-section h2 {
+  font-size: 1.4em;
+  margin-bottom: 1em;
+}
+
+.about-section p {
+  margin-bottom: 1em;
+}
+
+.about-section ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 0.3em;  /* Tighter vertical spacing */
+  column-gap: 2em;  /* Horizontal spacing between columns */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.about-section ul li {
+  margin: 0;
+}
+
+/* Home link on posts */
+.home-link {
+  display: inline-block;
+  margin-bottom: 2em;
+  font-size: 0.9em;
+  color: var(--meta-color);
+}
+
+.home-link:hover {
+  color: var(--link-hover);
+}
+
+/* Header on homepage */
+header h1 {
+  margin-bottom: 0.2em;
+}
+
+header p {
+  text-align: left;
+  font-style: italic;
+  color: var(--meta-color);
+  margin-top: 0;
+}
+
+/* Comments section */
+.comments {
+  margin-top: 3em;
+  padding-top: 2em;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Tables */
+table {
+  margin: 1em 0;
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9em;
+}
+
+table th {
+  padding: 0.5em;
+  background-color: var(--code-bg);
+  border: 1px solid var(--border-color);
+  font-weight: bold;
+}
+
+table td {
+  padding: 0.5em;
+  border: 1px solid var(--border-color);
+}
+
+/* Selection highlight */
+::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+}
+
+/* Footer */
+footer {
+  margin-top: 4em;
+  padding-top: 2em;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+  font-size: 0.9em;
+  color: var(--meta-color);
+}
+
+/* Print styles */
+@media print {
+  body {
+    font-size: 12pt;
+    max-width: 100%;
+    color: black;
+    background: white;
+  }
+  
+  a { 
+    color: black;
+    text-decoration: underline;
+  }
+  
+  nav, .comments, footer {
+    display: none;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  body {
+    font-size: 16px;
+    padding: 1em;
+  }
+  
+  p {
+    text-align: left;  /* Easier to read on mobile */
+  }
+  
+  h1 { font-size: 1.5em; }
+  h2 { font-size: 1.25em; }
+  h3 { font-size: 1.1em; }
+  
+  .about-section ul {
+    grid-template-columns: 1fr;  /* Single column on mobile */
+  }
+  
+  .post-entry {
+    padding: 1em;
+  }
+  
+  .post-entry h3 {
+    font-size: 1.05em;
+  }
+} 

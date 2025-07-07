@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradient Dynamics in Deep
+Networks - Analytic Interpretability</title>
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="static/math-render.js"></script>
+  
+  <!-- Our minimal styles -->
+  <link rel="stylesheet" href="static/style.css">
+  
+  <!-- Meta tags -->
+  <meta name="description" content="Analyzing the flow of gradients
+through deep neural architectures">
+  <meta name="author" content="Jane Smith">
+  <meta name="date" content="2025-01-18">
+</head>
+<body>
+  <a href="index.html" class="home-link">← Back to home</a>
+
+  <article>
+    <header>
+      <h1>Gradient Dynamics in Deep Networks</h1>
+      <div class="metadata">
+        Jane Smith
+        <br><time datetime="2025-01-18">2025-01-18</time>
+      </div>
+    </header>
+
+    <main>
+      <p>Understanding how gradients flow through deep neural networks
+      is crucial for training stability and performance. This post
+      examines the mathematical foundations of gradient dynamics.</p>
+      <h2 id="the-gradient-flow-equation">The Gradient Flow
+      Equation</h2>
+      <p>Consider a neural network with parameters <span
+      class="math inline">\(\theta\)</span> and loss function <span
+      class="math inline">\(\mathcal{L}\)</span>. The gradient flow is
+      governed by:</p>
+      <p><span class="math display">\[\frac{d\theta}{dt} =
+      -\nabla_\theta \mathcal{L}(\theta)\]</span></p>
+      <p>This continuous-time view of gradient descent reveals important
+      properties about optimization landscapes.</p>
+      <h2 id="stability-analysis">Stability Analysis</h2>
+      <p>For a linear network with depth <span
+      class="math inline">\(L\)</span>, the gradient of the loss with
+      respect to the first layer weights <span
+      class="math inline">\(W_1\)</span> is:</p>
+      <p><span class="math display">\[\frac{\partial
+      \mathcal{L}}{\partial W_1} = \left(\prod_{i=2}^{L} W_i^T\right)
+      \frac{\partial \mathcal{L}}{\partial W_L}\]</span></p>
+      <p>The product of weight matrices determines whether gradients
+      vanish or explode:</p>
+      <p><span class="math display">\[\left\|\frac{\partial
+      \mathcal{L}}{\partial W_1}\right\| \approx \left(\prod_{i=2}^{L}
+      \|W_i\|\right) \left\|\frac{\partial \mathcal{L}}{\partial
+      W_L}\right\|\]</span></p>
+      <h2 id="implications-for-architecture-design">Implications for
+      Architecture Design</h2>
+      <p>This analysis suggests several principles for network
+      design:</p>
+      <ol type="1">
+      <li><strong>Initialization schemes</strong>: Choose <span
+      class="math inline">\(\text{Var}(W_{ij}) = \frac{2}{n_{in} +
+      n_{out}}\)</span> (Xavier/Glorot)</li>
+      <li><strong>Normalization layers</strong>: Stabilize activation
+      statistics</li>
+      <li><strong>Residual connections</strong>: Create gradient
+      highways</li>
+      </ol>
+      <h2 id="empirical-validation">Empirical Validation</h2>
+      <p>Recent work has shown that properly initialized networks
+      maintain stable gradients even at extreme depths, enabling
+      training of networks with hundreds of layers.</p>
+      <h2 id="references">References</h2>
+      <ol type="1">
+      <li>Saxe et al. (2013). “Exact solutions to the nonlinear dynamics
+      of learning in deep linear neural networks”</li>
+      <li>He et al. (2015). “Delving deep into rectifiers: Surpassing
+      human-level performance on ImageNet classification”</li>
+      </ol>
+    </main>
+  </article>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="analyticinterp/analyticinterp.github.io"
+      data-repo-id="R_kgDONkWUAw"
+      data-category="Blog Comments"
+      data-category-id="DIC_kwDONkWUA84ClS5g"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>
+</body>
+</html> 

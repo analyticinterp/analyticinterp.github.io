@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Understanding Attention
+Mechanisms - Analytic Interpretability</title>
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="static/math-render.js"></script>
+  
+  <!-- Our minimal styles -->
+  <link rel="stylesheet" href="static/style.css">
+  
+  <!-- Meta tags -->
+  <meta name="description" content="A mathematical exploration of
+attention mechanisms in transformers">
+  <meta name="author" content="Eric Doe">
+  <meta name="date" content="2025-01-20">
+</head>
+<body>
+  <a href="index.html" class="home-link">← Back to home</a>
+
+  <article>
+    <header>
+      <h1>Understanding Attention Mechanisms</h1>
+      <div class="metadata">
+        Eric Doe
+        <br><time datetime="2025-01-20">2025-01-20</time>
+      </div>
+    </header>
+
+    <main>
+      <p>blah hello</p>
+      <p><span class="math display">\[ \gamma(s) = \int_0^\infty t^{s-1}
+      e^{-t} dt \]</span></p>
+      <p>Testing! one two three</p>
+      <p>Attention mechanisms are fundamental to modern deep learning
+      architectures, particularly transformers. In this post, we’ll
+      explore the mathematical foundations of attention.</p>
+      <h2 id="the-attention-function">The Attention Function</h2>
+      <p>The attention mechanism can be described as a function that
+      maps a query and a set of key-value pairs to an output:</p>
+      <p><span class="math display">\[\text{Attention}(Q, K, V) =
+      \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V\]</span></p>
+      <p>Where: - <span class="math inline">\(Q \in \mathbb{R}^{n \times
+      d_k}\)</span> is the query matrix - <span class="math inline">\(K
+      \in \mathbb{R}^{m \times d_k}\)</span> is the key matrix<br />
+      - <span class="math inline">\(V \in \mathbb{R}^{m \times
+      d_v}\)</span> is the value matrix - <span
+      class="math inline">\(d_k\)</span> is the dimension of the keys
+      (and queries)</p>
+      <h2 id="scaled-dot-product-attention">Scaled Dot-Product
+      Attention</h2>
+      <p>The scaling factor <span
+      class="math inline">\(\frac{1}{\sqrt{d_k}}\)</span> is crucial.
+      Without it, the dot products grow large in magnitude, pushing the
+      softmax function into regions with extremely small gradients.</p>
+      <p>Consider the variance of the dot product <span
+      class="math inline">\(q \cdot k\)</span> where <span
+      class="math inline">\(q\)</span> and <span
+      class="math inline">\(k\)</span> are random vectors with
+      components <span class="math inline">\(\sim \mathcal{N}(0,
+      1)\)</span>:</p>
+      <p><span class="math display">\[\text{Var}(q \cdot k) =
+      \text{Var}\left(\sum_{i=1}^{d_k} q_i k_i\right) = d_k\]</span></p>
+      <h2 id="multi-head-attention">Multi-Head Attention</h2>
+      <p>Multi-head attention allows the model to jointly attend to
+      information from different representation subspaces:</p>
+      <p><span class="math display">\[\text{MultiHead}(Q, K, V) =
+      \text{Concat}(\text{head}_1, ..., \text{head}_h)W^O\]</span></p>
+      <p>where each head is computed as:</p>
+      <p><span class="math display">\[\text{head}_i =
+      \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)\]</span></p>
+      <h2 id="implementation-example">Implementation Example</h2>
+      <p>Here’s a simple implementation in PyTorch:</p>
+      <div class="sourceCode" id="cb1"><pre
+      class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn.functional <span class="im">as</span> F</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scaled_dot_product_attention(Q, K, V, mask<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    d_k <span class="op">=</span> Q.size(<span class="op">-</span><span class="dv">1</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    scores <span class="op">=</span> torch.matmul(Q, K.transpose(<span class="op">-</span><span class="dv">2</span>, <span class="op">-</span><span class="dv">1</span>)) <span class="op">/</span> torch.sqrt(torch.tensor(d_k))</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> mask <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>:</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        scores <span class="op">=</span> scores.masked_fill(mask <span class="op">==</span> <span class="dv">0</span>, <span class="op">-</span><span class="fl">1e9</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    attention_weights <span class="op">=</span> F.softmax(scores, dim<span class="op">=-</span><span class="dv">1</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    output <span class="op">=</span> torch.matmul(attention_weights, V)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> output, attention_weights</span></code></pre></div>
+      <h2 id="conclusion">Conclusion</h2>
+      <p>The attention mechanism’s elegance lies in its simplicity and
+      effectiveness. By allowing models to dynamically focus on relevant
+      parts of the input, attention has revolutionized sequence modeling
+      tasks.</p>
+      <p>In future posts, we’ll explore how attention mechanisms lead to
+      the emergence of induction heads and other fascinating
+      computational structures in transformers.</p>
+    </main>
+  </article>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="analyticinterp/analyticinterp.github.io"
+      data-repo-id="R_kgDONkWUAw"
+      data-category="Blog Comments"
+      data-category-id="DIC_kwDONkWUA84ClS5g"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>
+</body>
+</html> 

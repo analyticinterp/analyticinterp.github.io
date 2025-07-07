@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>On the Universality of Transformer
+Representations - Analytic Interpretability</title>
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="static/math-render.js"></script>
+  
+  <!-- Our minimal styles -->
+  <link rel="stylesheet" href="static/style.css">
+  
+  <!-- Meta tags -->
+  <meta name="description" content="We prove that transformer networks
+with sufficient width and depth can approximate any continuous
+sequence-to-sequence function, extending classical universality results
+to the attention mechanism.">
+  <meta name="author" content="No one">
+  <meta name="date" content="2025-01-15">
+</head>
+<body>
+  <a href="index.html" class="home-link">← Back to home</a>
+
+  <article>
+    <header>
+      <h1>On the Universality of Transformer Representations</h1>
+      <div class="metadata">
+        No one
+        <br><time datetime="2025-01-15">2025-01-15</time>
+      </div>
+    </header>
+
+    <main>
+      <p>The universal approximation theorem for feedforward networks
+      tells us that sufficiently wide networks can approximate any
+      continuous function. But what about transformers? In this post, we
+      extend these classical results to architectures with
+      attention.</p>
+      <h2 id="the-classical-result">The Classical Result</h2>
+      <p>The universal approximation theorem (Cybenko, 1989; Hornik,
+      1991) states that feedforward networks with a single hidden layer
+      can approximate any continuous function on a compact set to
+      arbitrary accuracy:</p>
+      <p><strong>Theorem 1</strong> (Universal Approximation). Let <span
+      class="math inline">\(\sigma: \mathbb{R} \to \mathbb{R}\)</span>
+      be a non-polynomial activation function. Then the set of
+      functions</p>
+      <p><span class="math display">\[\mathcal{F} = \left\{ x \mapsto
+      \sum_{i=1}^{N} \alpha_i \sigma(w_i^T x + b_i) : N \in \mathbb{N},
+      \alpha_i, b_i \in \mathbb{R}, w_i \in \mathbb{R}^d
+      \right\}\]</span></p>
+      <p>is dense in <span class="math inline">\(C(K)\)</span> for any
+      compact <span class="math inline">\(K \subset
+      \mathbb{R}^d\)</span>.</p>
+      <h2 id="extending-to-transformers">Extending to Transformers</h2>
+      <p>For transformers, we need to consider sequence-to-sequence
+      mappings. Let <span class="math inline">\(\mathcal{X} =
+      \mathbb{R}^{n \times d}\)</span> be the space of input sequences
+      of length <span class="math inline">\(n\)</span> with <span
+      class="math inline">\(d\)</span>-dimensional embeddings.</p>
+      <p><strong>Theorem 2</strong> (Transformer Universality). Any
+      continuous function <span class="math inline">\(f: \mathcal{X} \to
+      \mathcal{X}\)</span> can be approximated to arbitrary precision by
+      a transformer with sufficient width and depth.</p>
+      <p><em>Proof sketch</em>: The key insight is that attention can
+      implement arbitrary pairwise interactions between sequence
+      elements, while the feedforward layers provide universal
+      approximation within each position.</p>
+      <h2 id="implications">Implications</h2>
+      <p>This theoretical result has several important implications:</p>
+      <ol type="1">
+      <li><strong>Expressivity</strong>: Transformers are at least as
+      expressive as any other continuous sequence model</li>
+      <li><strong>Depth vs Width</strong>: Unlike feedforward networks,
+      transformers benefit from both depth and width</li>
+      <li><strong>Attention is Sufficient</strong>: The attention
+      mechanism alone can implement complex computational patterns</li>
+      </ol>
+      <h2 id="open-questions">Open Questions</h2>
+      <p>Several questions remain: - What is the sample complexity of
+      learning these universal approximators? - Can we characterize
+      which functions are “easy” vs “hard” for transformers? - How does
+      the inductive bias of attention affect learning dynamics?</p>
+      <p>In future work, we plan to explore these questions through both
+      theoretical analysis and empirical investigation.</p>
+    </main>
+  </article>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="analyticinterp/analyticinterp.github.io"
+      data-repo-id="R_kgDONkWUAw"
+      data-category="Blog Comments"
+      data-category-id="DIC_kwDONkWUA84ClS5g"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>
+</body>
+</html> 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>$if(title)$$title$ - $endif$Analytic Interpretability</title>
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="static/math-render.js"></script>
+  
+  <!-- Our minimal styles -->
+  <link rel="stylesheet" href="static/style.css">
+  
+  <!-- Meta tags -->
+  $if(description)$<meta name="description" content="$description$">$endif$
+  $if(author)$<meta name="author" content="$author$">$endif$
+  $if(date)$<meta name="date" content="$date$">$endif$
+</head>
+<body>
+  <a href="index.html" class="home-link">← Back to home</a>
+
+  <article>
+    <header>
+      <h1>$title$</h1>
+      <div class="metadata">
+        $if(author)$$author$$endif$
+        $if(date)$<br><time datetime="$date$">$date$</time>$endif$
+      </div>
+    </header>
+
+    <main>
+      $body$
+    </main>
+  </article>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <script src="https://giscus.app/client.js"
+      data-repo="analyticinterp/analyticinterp.github.io"
+      data-repo-id="R_kgDONkWUAw"
+      data-category="Blog Comments"
+      data-category-id="DIC_kwDONkWUA84ClS5g"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>
+</body>
+</html> 
