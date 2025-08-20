@@ -58,9 +58,10 @@ It’s very worth working through the neural network Gaussian process (NNGP) ide
 
 At this point in our discussion, we already have papers that have calculated average-case quantities exactly which agree well with experiments using networks with widths in the hundreds or thousands. Look at how good the agreement is in these plots:
 
-[FIGURE]
-
-[CAPTION: Left: signal propagation of layerwise correlations from [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340). Right: performance vs. ordered/chaotic regimes from [[Lee et al. (2017)]](https://arxiv.org/abs/1711.00165). Now *that’s* a theory-experiment match.
+<div class="full-width-figure">
+<img src="../static/great_dl_th-exp_plots.png" alt="Theory-experiment agreement plots">
+<div class="figure-caption">Left: signal propagation of layerwise correlations from <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>. Right: performance vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">Lee et al. (2017)</a>. Now <em>that's</em> a theory-experiment match.</div>
+</div>
 
 It’s worth appreciating that extremely good agreement with experiment is possible if we’re studying the right objects in the right regimes. Most deep learning theory work that can’t get agreement this good eventually fades or is replaced by something that does. It’s usually wise to insist on a quantitative match from your theory and be satisfied with nothing less.
 
