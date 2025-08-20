@@ -306,6 +306,11 @@ def copy_static_files(output_dir):
             content = file.read_bytes()
             (output_static / file.name).write_bytes(content)
     
+    # Copy .nojekyll file to prevent Jekyll processing on GitHub Pages
+    nojekyll_file = Path('.nojekyll')
+    if nojekyll_file.exists():
+        (output_dir / '.nojekyll').write_bytes(nojekyll_file.read_bytes())
+    
     print("✓ Copied static files")
 
 def main():
