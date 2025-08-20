@@ -11,3 +11,21 @@ sequence_order: 4
 ---
 
 [TO BE WRITTEN]
+
+some facts about DL are clear in practice but really hard to show mathematically!
+
+one of these is: why does optimization work at all?
+
+- we can make models
+- loss surfaces; study of convex loss surfaces
+- NTK (+ overparam more generally)
+
+okay, what do we know about optimization in the real world?
+
+- EoS
+- central flows?
+- maybe I can get Jeremy to write this one.
+
+can we do better than GD?
+
+- optimizers, Muon, etc.

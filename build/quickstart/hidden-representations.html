@@ -76,8 +76,12 @@
       </ul>
       <p>It’s very worth working through the neural network Gaussian process (NNGP) idea and getting intuition for both GPs and the forward-prop statistics that give a GP in this context. Notice that MLPs have NNGPs with rotation-invariant kernels.</p>
       <p>At this point in our discussion, we already have papers that have calculated average-case quantities exactly which agree well with experiments using networks with widths in the hundreds or thousands. Look at how good the agreement is in these plots:</p>
-      <p>[FIGURE]</p>
-      <p>[CAPTION: Left: signal propagation of layerwise correlations from <a href="https://arxiv.org/abs/1606.05340">[Poole et al. (2016)]</a>. Right: performance vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">[Lee et al. (2017)]</a>. Now <em>that’s</em> a theory-experiment match.</p>
+      <div class="full-width-figure">
+      <img src="../static/great_dl_th-exp_plots.png" alt="Theory-experiment agreement plots">
+      <div class="figure-caption">
+      Left: signal propagation of layerwise correlations from <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>. Right: performance vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">Lee et al. (2017)</a>. Now <em>that’s</em> a theory-experiment match.
+      </div>
+      </div>
       <p>It’s worth appreciating that extremely good agreement with experiment is possible if we’re studying the right objects in the right regimes. Most deep learning theory work that can’t get agreement this good eventually fades or is replaced by something that does. It’s usually wise to insist on a quantitative match from your theory and be satisfied with nothing less.</p>
       <h3 id="infinite-width-nets-under-gradient-descent-the-ntk">Infinite-width nets under gradient descent: the NTK</h3>
       <p>Now that we understand initialization in wide networks, we’re ready to study training. The first milestone on this path is the “neural tangent kernel” (NTK). The main result here is that if you <em>train</em> a neural network in the NNGP infinite-width setting, its functional evolution is described by a particular kernel which remains static for all time. This kernel is the inner product of parameter gradient vectors:</p>
@@ -143,7 +147,7 @@
     </main>
   </article>
 
-  <hr><div class="sequence-toc"><h3>A Quickstart Guide to Learning Mechanics</h3><ol><li><a href="../quickstart/introduction.html">Introduction: what do you want to understand?</a></li><li><strong>...the average size of hidden representations?</strong></li><li><a href="../quickstart/hyperparameter-selection.html">...hyperparameter selection (and why should theorists care)?</a></li><li><a href="../quickstart/optimization.html">...the convergence and stability of optimization?</a></li><li><a href="../quickstart/feature-learning.html">...feature learning and the final network weights?</a></li><li><a href="../quickstart/generalization.html">...generalization?</a></li><li><a href="../quickstart/sparsity.html">...neuron-level sparsity?</a></li><li><a href="../quickstart/data-structure.html">...the structure in the data?</a></li><li><a href="../quickstart/topics-omitted.html">Some topics omitted</a></li><li><a href="../quickstart/conclusion.html">Conclusion: what's next for the mathematical science of deep learning?</a></li></ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>
+  <hr><div class="sequence-toc"><h3>A Quickstart Guide to Learning Mechanics</h3><ol><li><a href="../quickstart/introduction.html">Introduction: what do you want to understand?</a></li><li><strong>...the average size of hidden representations?</strong></li><li><a href="../quickstart/hyperparameter-selection.html">🚧 ...hyperparameter selection (and why should theorists care)?</a></li><li><a href="../quickstart/optimization.html">🚧 ...the convergence and stability of optimization?</a></li><li><a href="../quickstart/feature-learning.html">🚧 ...feature learning and the final network weights?</a></li><li><a href="../quickstart/generalization.html">🚧 ...generalization?</a></li><li><a href="../quickstart/sparsity.html">🚧 ...neuron-level sparsity?</a></li><li><a href="../quickstart/data-structure.html">🚧 ...the structure in the data?</a></li><li><a href="../quickstart/conclusion.html">🚧 Places to make a difference</a></li></ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>
 
   <div class="comments">
     <h2>Comments</h2>

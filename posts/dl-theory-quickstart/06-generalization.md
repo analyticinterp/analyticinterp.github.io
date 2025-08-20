@@ -11,3 +11,9 @@ sequence_order: 6
 ---
 
 [TO BE WRITTEN]
+
+- this one’s really hard.
+- the question is basically: what functions can a neural network learn well with $n$ samples?
+- honestly, people don’t even try this empirically all that much. (open Q?)
+- linear model / kernel / RF theory
+- single- / multi-index model theory

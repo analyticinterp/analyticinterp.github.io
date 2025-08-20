@@ -1,7 +1,17 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(for:*)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(wc:*)",
+      "Bash(done)",
+      "Bash(rm:*)",
+      "Bash(cp:*)",
+      "Bash(python:*)",
+      "Bash(git rm:*)",
+      "Bash(git push:*)",
+      "Bash(gh repo view --web)"
     ],
     "deny": [],
     "ask": []

@@ -6,13 +6,6 @@
     <description>Understanding deep learning through theory</description>
     <language>en-us</language>
     <item>
-      <title>Some topics omitted</title>
-      <link>https://analyticinterp.github.io/topics-omitted.html</link>
-      <guid>https://analyticinterp.github.io/topics-omitted.html</guid>
-      <description>Important areas of deep learning theory that are beyond the scope of this quickstart guide.</description>
-      <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
-    </item>
-    <item>
       <title>Want to understand feature learning and the final network weights?</title>
       <link>https://analyticinterp.github.io/feature-learning.html</link>
       <guid>https://analyticinterp.github.io/feature-learning.html</guid>
@@ -41,10 +34,10 @@
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>Conclusion: what's next for the mathematical science of deep learning?</title>
+      <title>Places to make a difference</title>
       <link>https://analyticinterp.github.io/conclusion.html</link>
       <guid>https://analyticinterp.github.io/conclusion.html</guid>
-      <description>Future directions and open problems in the mathematical understanding of deep learning.</description>
+      <description>coming soon</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
