@@ -18,7 +18,7 @@ last_build_time = time.time()
 
 class DevServerHandler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory="docs", **kwargs)
+        super().__init__(*args, directory="build", **kwargs)
     
     def end_headers(self):
         # Add CORS headers for dev server
@@ -44,9 +44,9 @@ class DevServerHandler(http.server.SimpleHTTPRequestHandler):
         if self.path.endswith('.html') or self.path == '/' or self.path.endswith('/'):
             # Determine the actual file path
             if self.path == '/' or self.path.endswith('/'):
-                file_path = Path("docs") / "index.html"
+                file_path = Path("build") / "index.html"
             else:
-                file_path = Path("docs") / self.path.lstrip('/')
+                file_path = Path("build") / self.path.lstrip('/')
             
             if file_path.exists() and file_path.suffix == '.html':
                 # Read the HTML file

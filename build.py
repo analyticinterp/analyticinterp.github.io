@@ -14,7 +14,7 @@ from xml.dom import minidom
 
 # Configuration
 SITE_URL = "https://analyticinterp.github.io"
-SITE_TITLE = "Analytic Interpretability"
+SITE_TITLE = "Learning Mechanics"
 SITE_DESCRIPTION = "Understanding deep learning through theory"
 AUTHOR = "Analytic Interpretability Team"
 
@@ -37,11 +37,24 @@ def extract_metadata(filepath):
             # Ensure slug is set
             if 'slug' not in metadata:
                 filename = Path(filepath).stem
+                # Handle old date-based naming: YYYY-MM-DD-slug
                 date_match = re.match(r'(\d{4}-\d{2}-\d{2})-(.+)', filename)
                 if date_match:
                     metadata['slug'] = date_match.group(2)
                 else:
-                    metadata['slug'] = filename
+                    # Handle new number-based naming: NN-slug
+                    number_match = re.match(r'(\d+)-(.+)', filename)
+                    if number_match:
+                        metadata['slug'] = number_match.group(2)
+                    else:
+                        metadata['slug'] = filename
+            
+            # Set default sequence_order if not present
+            if 'sequence_order' not in metadata:
+                metadata['sequence_order'] = 1
+            else:
+                # Convert to int for sorting
+                metadata['sequence_order'] = int(metadata['sequence_order'])
             
             return metadata
     
@@ -64,14 +77,24 @@ def extract_metadata(filepath):
     else:
         metadata['title'] = metadata['slug'].replace('-', ' ').title()
     
+    # Set default sequence_order for fallback case
+    metadata['sequence_order'] = 1
+    
     return metadata
 
-def build_post(markdown_file, output_dir):
+def build_post(markdown_file, output_dir, metadata, sequence_nav=None):
     """Convert a markdown file to HTML using pandoc"""
-    metadata = extract_metadata(markdown_file)
     
-    # Create output filename
-    output_file = output_dir / f"{metadata['slug']}.html"
+    # Create output filename based on URL path
+    sequence_key = metadata.get('sequence', '')
+    if sequence_key and sequence_key != f"standalone-{metadata['slug']}":
+        # Create sequence subdirectory
+        sequence_dir = output_dir / sequence_key
+        sequence_dir.mkdir(exist_ok=True)
+        output_file = sequence_dir / f"{metadata['slug']}.html"
+    else:
+        # Standalone post at root level
+        output_file = output_dir / f"{metadata['slug']}.html"
     
     # Build pandoc command
     cmd = [
@@ -83,12 +106,55 @@ def build_post(markdown_file, output_dir):
         '--highlight-style=kate',
         '--metadata', f"title={metadata.get('title', 'Untitled')}",
         '--metadata', f"date={metadata.get('date', '')}",
-        '--metadata', f"author={metadata.get('author', AUTHOR)}"
+        '--metadata', f"author={metadata.get('author', AUTHOR)}",
+        '--metadata', f"path_prefix={metadata.get('path_prefix', '')}"
     ]
+    
+    # Add sequence navigation metadata if available
+    if sequence_nav:
+        cmd.extend([
+            '--metadata', f"sequence_title={sequence_nav.get('sequence_title', '')}",
+            '--metadata', f"sequence_part={sequence_nav.get('sequence_part', '')}",
+            '--metadata', f"sequence_total={sequence_nav.get('sequence_total', '')}",
+            '--metadata', f"prev_title={sequence_nav.get('prev_title', '')}",
+            '--metadata', f"prev_slug={sequence_nav.get('prev_slug', '')}",
+            '--metadata', f"prev_url={sequence_nav.get('prev_url', '')}",
+            '--metadata', f"prev_part={sequence_nav.get('prev_part', '')}",
+            '--metadata', f"next_title={sequence_nav.get('next_title', '')}",
+            '--metadata', f"next_slug={sequence_nav.get('next_slug', '')}",
+            '--metadata', f"next_url={sequence_nav.get('next_url', '')}",
+            '--metadata', f"next_part={sequence_nav.get('next_part', '')}"
+        ])
     
     # Run pandoc
     try:
         subprocess.run(cmd, check=True, capture_output=True, text=True)
+        
+        # Post-process to add sequence TOC if available
+        if sequence_nav and 'toc_posts' in sequence_nav:
+            # Generate TOC HTML
+            toc_items = []
+            for i, post in enumerate(sequence_nav['toc_posts'], 1):
+                display_title = post.get('toc_title', post['title'])
+                post_url = post.get('url_path', f"{post['slug']}.html")
+                if post['slug'] == sequence_nav['current_slug']:
+                    toc_items.append(f'<strong>{display_title}</strong>')
+                else:
+                    toc_items.append(f'<a href="{metadata.get("path_prefix", "")}{post_url}">{display_title}</a>')
+            
+            toc_html = f'<hr><div class="sequence-toc"><h3>{metadata.get("sequence_title", "")}</h3><ol>{"".join(f"<li>{item}</li>" for item in toc_items)}</ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>'
+            
+            # Read the generated HTML file
+            with open(output_file, 'r') as f:
+                html_content = f.read()
+            
+            # Replace placeholder with TOC
+            html_content = html_content.replace('<!-- SEQUENCE_TOC_PLACEHOLDER -->', toc_html)
+            
+            # Write back
+            with open(output_file, 'w') as f:
+                f.write(html_content)
+        
         print(f"✓ Built: {metadata['slug']}")
         return metadata
     except subprocess.CalledProcessError as e:
@@ -96,68 +162,84 @@ def build_post(markdown_file, output_dir):
         return None
 
 def generate_index(posts, output_dir):
-    """Generate the index page with list of posts"""
-    # Sort posts by date (newest first)
-    posts.sort(key=lambda p: p.get('date', ''), reverse=True)
-    
+    """Generate the index page with list of posts grouped by sequences"""
     # Filter out the about page from the main list
     article_posts = [p for p in posts if p['slug'] != 'about']
     
-    # Group posts by month/year
-    post_groups = {}
+    # Group posts by sequence
+    sequences = {}
     for post in article_posts:
-        if 'date' in post:
-            try:
-                dt = datetime.strptime(post['date'], '%Y-%m-%d')
-                month_key = dt.strftime('%B %Y')
-            except:
-                month_key = 'Undated'
-        else:
-            month_key = 'Undated'
+        sequence_key = post.get('sequence', f"standalone-{post['slug']}")
         
-        if month_key not in post_groups:
-            post_groups[month_key] = []
-        post_groups[month_key].append(post)
+        if sequence_key not in sequences:
+            sequences[sequence_key] = {
+                'title': post.get('sequence_title', post['title']),
+                'description': post.get('sequence_description', post.get('description', '')),
+                'posts': []
+            }
+        
+        sequences[sequence_key]['posts'].append(post)
     
-    # Generate post list HTML with rich formatting
+    # Sort posts within each sequence by sequence_order
+    for sequence in sequences.values():
+        sequence['posts'].sort(key=lambda p: p.get('sequence_order', 1))
+    
+    # Sort sequences by date of first post (newest first)
+    sequence_list = []
+    for seq_key, seq_data in sequences.items():
+        first_post = seq_data['posts'][0]
+        seq_data['date'] = first_post.get('date', '')
+        seq_data['author'] = first_post.get('author', '')
+        sequence_list.append(seq_data)
+    
+    sequence_list.sort(key=lambda s: s.get('date', ''), reverse=True)
+    
+    # Generate sequence HTML
     post_html = []
-    for month_key, month_posts in post_groups.items():
-        # Add date header
-        post_html.append(f'      <div class="date-header">{month_key}</div>')
+    for sequence in sequence_list:
+        first_post = sequence['posts'][0]
         
-        # Add posts for this month
-        for post in month_posts:
-            # Format the date nicely
-            if 'date' in post:
-                try:
-                    dt = datetime.strptime(post['date'], '%Y-%m-%d')
-                    date_str = dt.strftime('%B %d, %Y')
-                except:
-                    date_str = post['date']
-            else:
-                date_str = ''
-            
-            # Build the post entry
-            entry_html = f'''      <a href="{post['slug']}.html" class="post-entry">
-        <h3>{post['title']}</h3>'''
-            
-            # Add author if different from default
-            if 'author' in post and post['author'] != AUTHOR:
-                entry_html += f'''
-        <div class="post-byline">{post['author']}, {date_str}</div>'''
-            else:
-                entry_html += f'''
-        <div class="post-byline">{date_str}</div>'''
-            
-            # Add description if available
-            if 'description' in post:
-                entry_html += f'''
-        <div class="post-description">{post['description']}</div>'''
-            
-            entry_html += '''
-      </a>'''
-            
-            post_html.append(entry_html)
+        # Format the date nicely
+        if 'date' in sequence:
+            try:
+                dt = datetime.strptime(sequence['date'], '%Y-%m-%d')
+                date_str = dt.strftime('%B %d, %Y')
+            except:
+                date_str = sequence['date']
+        else:
+            date_str = ''
+        
+        # Start sequence box
+        first_post_url = first_post.get('url_path', f"{first_post['slug']}.html")
+        sequence_html = f'''      <div class="sequence-box" onclick="location.href='{first_post_url}'">
+        <div class="sequence-title">{sequence['title']}</div>'''
+        
+        # Add author and date on separate lines
+        if sequence['author'] and sequence['author'] != AUTHOR:
+            sequence_html += f'''
+        <div class="sequence-author">{sequence['author']}</div>
+        <div class="sequence-date">{date_str}</div>'''
+        else:
+            sequence_html += f'''
+        <div class="sequence-date">{date_str}</div>'''
+        
+        # Add post links within sequence
+        if len(sequence['posts']) > 1:
+            sequence_html += '''
+        <div class="sequence-posts">'''
+            for i, post in enumerate(sequence['posts'], 1):
+                # Use toc_title if available, otherwise fallback to title
+                display_title = post.get('toc_title', post['title'])
+                post_url = post.get('url_path', f"{post['slug']}.html")
+                sequence_html += f'''
+          <a href="{post_url}" class="post-link" onclick="event.stopPropagation()">{i}. {display_title}</a>'''
+            sequence_html += '''
+        </div>'''
+        
+        sequence_html += '''
+      </div>'''
+        
+        post_html.append(sequence_html)
     
         # Read template and replace placeholders
     with open('templates/index.html', 'r') as f:
@@ -232,22 +314,84 @@ def main():
     
     # Setup directories
     posts_dir = Path('posts')
-    output_dir = Path('docs')
+    output_dir = Path('build')
     output_dir.mkdir(exist_ok=True)
     
-    # Find all markdown files
-    markdown_files = list(posts_dir.glob('*.md'))
+    # Find all markdown files (including in subdirectories)
+    markdown_files = list(posts_dir.rglob('*.md'))
     
     if not markdown_files:
         print("No markdown files found in posts/")
         return
     
-    # Build all posts
+    # First pass: collect metadata from all posts and generate URL paths
+    posts_metadata = []
+    file_to_metadata = {}
+    for md_file in markdown_files:
+        metadata = extract_metadata(md_file)
+        if metadata:
+            # Generate URL path and path prefix
+            sequence_key = metadata.get('sequence', '')
+            if sequence_key and sequence_key != f"standalone-{metadata['slug']}":
+                metadata['url_path'] = f"{sequence_key}/{metadata['slug']}.html"
+                metadata['path_prefix'] = "../"
+            else:
+                metadata['url_path'] = f"{metadata['slug']}.html"
+                metadata['path_prefix'] = ""
+            
+            posts_metadata.append(metadata)
+            file_to_metadata[str(md_file)] = metadata
+    
+    # Group posts by sequence to calculate navigation
+    sequences = {}
+    for metadata in posts_metadata:
+        sequence_key = metadata.get('sequence', f"standalone-{metadata['slug']}")
+        if sequence_key not in sequences:
+            sequences[sequence_key] = []
+        sequences[sequence_key].append(metadata)
+    
+    # Sort posts within each sequence by sequence_order
+    for sequence in sequences.values():
+        sequence.sort(key=lambda p: p.get('sequence_order', 1))
+    
+    # Second pass: build posts with navigation info
     posts = []
     for md_file in markdown_files:
-        metadata = build_post(md_file, output_dir)
-        if metadata:
-            posts.append(metadata)
+        metadata = file_to_metadata[str(md_file)]
+        sequence_nav = None
+        
+        # Calculate sequence navigation and TOC if part of multi-post sequence
+        sequence_key = metadata.get('sequence', f"standalone-{metadata['slug']}")
+        sequence_toc = None
+        if sequence_key in sequences and len(sequences[sequence_key]) > 1:
+            sequence_posts = sequences[sequence_key]
+            current_index = next(i for i, p in enumerate(sequence_posts) if p['slug'] == metadata['slug'])
+            
+            # Get URL paths for navigation
+            prev_url = sequence_posts[current_index - 1]['url_path'] if current_index > 0 else ''
+            next_url = sequence_posts[current_index + 1]['url_path'] if current_index < len(sequence_posts) - 1 else ''
+            
+            sequence_nav = {
+                'sequence_title': metadata.get('sequence_title', ''),
+                'sequence_part': current_index + 1,
+                'sequence_total': len(sequence_posts),
+                'prev_title': sequence_posts[current_index - 1]['title'] if current_index > 0 else '',
+                'prev_slug': sequence_posts[current_index - 1]['slug'] if current_index > 0 else '',
+                'prev_url': prev_url,
+                'prev_part': current_index if current_index > 0 else '',
+                'next_title': sequence_posts[current_index + 1]['title'] if current_index < len(sequence_posts) - 1 else '',
+                'next_slug': sequence_posts[current_index + 1]['slug'] if current_index < len(sequence_posts) - 1 else '',
+                'next_url': next_url,
+                'next_part': current_index + 2 if current_index < len(sequence_posts) - 1 else ''
+            }
+            
+            # Store sequence TOC data for build_post
+            sequence_nav['toc_posts'] = sequence_posts
+            sequence_nav['current_slug'] = metadata['slug']
+        
+        built_metadata = build_post(md_file, output_dir, metadata, sequence_nav)
+        if built_metadata:
+            posts.append(built_metadata)
     
     # Generate index and RSS
     if posts:
@@ -259,7 +403,7 @@ def main():
     
     print(f"\n✓ Build complete! Generated {len(posts)} posts.")
     print(f"  Output in: {output_dir.absolute()}")
-    print(f"  Ready for GitHub Pages deployment from docs/ directory")
+    print(f"  Ready for GitHub Pages deployment from build/ directory")
 
 if __name__ == '__main__':
     main() 

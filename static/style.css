@@ -1,3 +1,6 @@
+/* ET Book web font */
+@import url('https://edwardtufte.github.io/et-book/et-book.css');
+
 /* Minimal academic blog styles - inspired by traditional academic papers */
 :root {
   --max-width: 42em;  /* Narrower for focused reading */
@@ -13,31 +16,52 @@
   --meta-color: #666;
 }
 
-/* Dark mode - softer contrast (disabled by default) */
-/* 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text-color: #ddd;
-    --heading-color: #eee;
-    --bg-color: #1a1a1a;
-    --link-color: #69b7ff;
-    --link-visited: #b19cd9;
-    --link-hover: #89cff0;
-    --code-bg: #2a2a2a;
-    --border-color: #444;
-    --blockquote-color: #aaa;
-    --meta-color: #999;
-  }
-  
-  .post-entry:hover {
-    background: rgba(255, 255, 255, 0.02);
-  }
+/* Dark mode - manual toggle */
+[data-theme="dark"] {
+  --text-color: #ddd;
+  --heading-color: #eee;
+  --bg-color: #1a1a1a;
+  --link-color: #69b7ff;
+  --link-visited: #b19cd9;
+  --link-hover: #89cff0;
+  --code-bg: #2a2a2a;
+  --border-color: #444;
+  --blockquote-color: #aaa;
+  --meta-color: #999;
 }
-*/
+
+[data-theme="dark"] .post-entry:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="dark"] .sequence-box:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Theme toggle button */
+.theme-toggle {
+  position: fixed;
+  top: 1.9em;
+  right: 1.5em;
+  background: none;
+  border: none;
+  font-size: 1.2em;
+  color: var(--meta-color);
+  cursor: pointer;
+  z-index: 100;
+  transition: color 0.2s ease;
+  line-height: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.theme-toggle:hover {
+  color: var(--link-hover);
+}
 
 /* Base styles */
 body {
-  font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-family: 'et-book', 'ETBookOT', 'ET Book', Georgia, 'Times New Roman', serif;
   font-size: 18px;  /* Slightly smaller than their 20px for better screen reading */
   line-height: 1.7;
   color: var(--text-color);
@@ -54,6 +78,8 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 1.4em;
   margin-bottom: 0.5em;
   font-weight: normal;  /* More elegant, less bold */
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 0.2em;
 }
 
 h1 { 
@@ -70,8 +96,8 @@ h6 { font-size: 0.9em; font-weight: bold; }
 /* Paragraphs */
 p {
   margin: 1em 0;
-  text-align: justify;  /* Traditional academic style */
-  hyphens: auto;
+  text-align: left;
+  hyphens: none;
 }
 
 /* Links - traditional academic colors */
@@ -86,7 +112,6 @@ a:visited {
 
 a:hover {
   color: var(--link-hover);
-  text-decoration: underline;
 }
 
 /* Code blocks */
@@ -130,12 +155,33 @@ blockquote {
   padding: 1em 0;
 }
 
+/* Sequence navigation */
+.sequence-nav {
+  color: var(--text-color);
+  font-size: 0.9em;
+  margin-bottom: 1em;
+  font-weight: normal;
+}
+
+/* Separator lines for post headers */
+.title-separator {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1.5em 0 1em 0;
+}
+
+.metadata-separator {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1em 0 2em 0;
+}
+
 /* Article metadata */
 .metadata {
   color: var(--meta-color);
   font-size: 0.9em;
   text-align: left;
-  margin-bottom: 2em;
+  margin-bottom: 0;
   font-style: italic;
 }
 
@@ -204,6 +250,74 @@ blockquote {
   font-size: 0.95em;
 }
 
+/* Sequence boxes */
+.sequence-box {
+  display: block;
+  text-decoration: none;
+  color: var(--text-color);
+  background: var(--code-bg);
+  padding: 1.5em;
+  margin-bottom: 0.5em;
+  border-left: 3px solid transparent;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.sequence-box:hover {
+  border-left-color: var(--meta-color);
+  background: rgba(0, 0, 0, 0.02);  /* Very subtle background change */
+}
+
+.sequence-title {
+  font-size: 1.15em;
+  margin: 0 0 0.5em 0;
+  color: var(--heading-color);
+  font-weight: normal;
+  transition: color 0.2s ease;
+}
+
+.sequence-box:hover .sequence-title {
+  color: var(--link-color);
+}
+
+.sequence-author {
+  font-style: italic;
+  color: var(--meta-color);
+  margin-bottom: 0.2em;
+  font-size: 0.9em;
+}
+
+.sequence-date {
+  color: var(--meta-color);
+  margin-bottom: 1em;
+  font-size: 0.9em;
+}
+
+.sequence-posts {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2em;
+  padding-top: 0.5em;
+  border-top: 1px solid var(--border-color);
+}
+
+.post-link {
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 0.2em 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 0.9em;
+  transition: color 0.2s ease;
+}
+
+.post-link:last-child {
+  border-bottom: none;
+}
+
+.post-link:hover {
+  color: var(--link-color);
+}
+
 /* Horizontal rule */
 hr {
   border: none;
@@ -239,36 +353,126 @@ hr {
   margin: 0;
 }
 
-/* Home link on posts */
-.home-link {
-  display: inline-block;
-  margin-bottom: 2em;
-  font-size: 0.9em;
+/* Home glyph on posts */
+.home-glyph {
+  position: fixed;
+  top: 1.5em;
+  right: 4em;
+  font-size: 1.2em;
+  color: var(--meta-color);
+  text-decoration: none;
+  z-index: 100;
+  transition: color 0.2s ease;
+}
+
+.home-glyph:visited {
   color: var(--meta-color);
 }
 
-.home-link:hover {
+.home-glyph:hover {
   color: var(--link-hover);
 }
 
 /* Header on homepage */
 header h1 {
   margin-bottom: 0.2em;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
-header p {
+.site-subtitle {
   text-align: left;
   font-style: italic;
   color: var(--meta-color);
+  margin: 0.5em 0 0 0;
+  font-size: 1.1em;
+}
+
+/* Header separators for homepage */
+.header-separator {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 1.5em 0;
+}
+
+/* Site description */
+.site-description {
+  margin: 0;
+}
+
+.site-description p {
+  margin: 0;
+  text-align: left;
+  font-style: normal;
+  line-height: 1.6;
+}
+
+/* Box environments for open questions */
+.question-box {
+  border: 2px solid rgb(128, 128, 128);
+  padding: 1em;
+  margin: 1.5em 0;
+  background: var(--code-bg);
+}
+
+.question-box p {
+  margin: 0;
+}
+
+/* Sequence TOC at end of posts */
+.sequence-toc {
+  margin: 3em 0 2em 0;
+  padding: 1.5em;
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+}
+
+.sequence-toc h3 {
   margin-top: 0;
+  margin-bottom: 1em;
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sequence-toc ol {
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+.sequence-toc li {
+  margin-bottom: 0.3em;
+}
+
+.sequence-toc a {
+  text-decoration: none;
+}
+
+.sequence-toc a:hover {
+  text-decoration: underline;
+}
+
+.back-to-top {
+  text-align: center;
+  margin-top: 1em;
+}
+
+.back-to-top a {
+  font-size: 1.5em;
+  color: var(--meta-color);
+  text-decoration: none;
+}
+
+.back-to-top a:hover {
+  color: var(--link-hover);
 }
 
 /* Comments section */
 .comments {
   margin-top: 3em;
   padding-top: 2em;
-  border-top: 1px solid var(--border-color);
 }
+
+/* Comments styling */
 
 /* Tables */
 table {

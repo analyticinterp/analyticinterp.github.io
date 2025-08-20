@@ -3,51 +3,50 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>$if(title)$$title$ - $endif$Learning Mechanics</title>
+  <title>Want to understand hyperparameter selection (and why should theorists care)? - Learning Mechanics</title>
   
   <!-- KaTeX for math rendering -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-  <script defer src="$path_prefix$static/math-render.js"></script>
+  <script defer src="../static/math-render.js"></script>
   
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   
   <!-- Our minimal styles -->
-  <link rel="stylesheet" href="$path_prefix$static/style.css">
+  <link rel="stylesheet" href="../static/style.css">
   
   <!-- Meta tags -->
-  $if(description)$<meta name="description" content="$description$">$endif$
-  $if(author)$<meta name="author" content="$author$">$endif$
-  $if(date)$<meta name="date" content="$date$">$endif$
+  <meta name="description" content="The theoretical foundations of hyperparameter optimization and its importance for understanding deep learning.">
+  <meta name="author" content="[long list of authors]">
+  <meta name="date" content="2025-09-01">
 </head>
 <body id="top">
-  <a href="$path_prefix$index.html" class="home-glyph"><i class="fas fa-home"></i></a>
+  <a href="../index.html" class="home-glyph"><i class="fas fa-home"></i></a>
   <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
 
   <article>
     <header>
-      <h1>$title$</h1>
-      $if(sequence_title)$
-      <div class="sequence-nav">
-        Part $sequence_part$ of <a href="$path_prefix$index.html">$sequence_title$</a>$if(prev_url)$$if(next_url)$ (<a href="$path_prefix$$prev_url$">prev</a> | <a href="$path_prefix$$next_url$">next</a>)$else$ (<a href="$path_prefix$$prev_url$">prev</a>)$endif$$else$$if(next_url)$ (<a href="$path_prefix$$next_url$">next</a>)$endif$$endif$
+      <h1>Want to understand hyperparameter selection (and why should theorists care)?</h1>
+            <div class="sequence-nav">
+        Part 3 of <a href="../index.html">A Quickstart Guide to Learning Mechanics</a> (<a href="../quickstart/hidden-representations.html">prev</a> | <a href="../quickstart/optimization.html">next</a>)
       </div>
-      $endif$
-      <hr class="title-separator">
+            <hr class="title-separator">
       <div class="metadata">
-        $if(author)$$author$$endif$
-        $if(date)$<br><time datetime="$date$">$date$</time>$endif$
+        [long list of authors]
+        <br><time datetime="2025-09-01">2025-09-01</time>
       </div>
       <hr class="metadata-separator">
     </header>
 
     <main>
-      $body$
+      <h1 id="want-to-understand-hyperparameter-selection-and-why-should-theorists-care">Want to understand hyperparameter selection (and why should theorists care)?</h1>
+      <p>[TO BE WRITTEN]</p>
     </main>
   </article>
 
-  <!-- SEQUENCE_TOC_PLACEHOLDER -->
+  <hr><div class="sequence-toc"><h3>A Quickstart Guide to Learning Mechanics</h3><ol><li><a href="../quickstart/introduction.html">Introduction: what do you want to understand?</a></li><li><a href="../quickstart/hidden-representations.html">...the average size of hidden representations?</a></li><li><strong>...hyperparameter selection (and why should theorists care)?</strong></li><li><a href="../quickstart/optimization.html">...the convergence and stability of optimization?</a></li><li><a href="../quickstart/feature-learning.html">...feature learning and the final network weights?</a></li><li><a href="../quickstart/generalization.html">...generalization?</a></li><li><a href="../quickstart/sparsity.html">...neuron-level sparsity?</a></li><li><a href="../quickstart/data-structure.html">...the structure in the data?</a></li><li><a href="../quickstart/topics-omitted.html">Some topics omitted</a></li><li><a href="../quickstart/conclusion.html">Conclusion: what's next for the mathematical science of deep learning?</a></li></ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>
 
   <div class="comments">
     <h2>Comments</h2>
