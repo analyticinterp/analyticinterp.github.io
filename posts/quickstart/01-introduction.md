@@ -19,7 +19,7 @@ It’s the job of all experienced scientists to help teach and train the generat
 
 Science is an edifice of ideas, each supporting those above it. While each idea is contributed by one or more people, and these contributors deserve credit, here we focus on the ideas. Nonetheless, if you feel we have made any attribution errors, do inform us. Furthermore, while this list is intended to be minimal, not comprehensive, if we have missed anything essential, please tell us.
 
-## Framing: what do you want to understand?
+## Choosing a question
 
 Deep learning is complicated. Training a neural network involves choosing an architecture, choosing a dataset, selecting numerous hyperparameters, and running a long iterated training procedure until, eventually, the loss goes down and learning has occurred. There will be no simple theory encompassing all of these variables — there are simply too many. For the time being, it’s important to be clear we’re asking questions simple and specific enough to be answered. As we make progress, we can hope to widen each pocket of understanding, eventually linking them together into a unified picture! As of 2025, though, our progress lies primarily in a few disjoint islands that are yet to be linked.
 
