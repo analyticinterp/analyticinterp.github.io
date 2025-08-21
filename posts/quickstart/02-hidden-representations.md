@@ -77,7 +77,7 @@ The primary consequence is that, in this limit, the learning dynamics of a neura
     - The NTK idea is a bit too technical to explain here (though we sure want to), but it’s all but essential to understand it before moving on to feature learning. It’s worth allocating some time, working through one of these papers, and making sure you’ve extracted the simple core idea. It’s also worth thinking carefully about linear models and kernel regression, as these will return later as first models for other learning phenomena.
     - Notice that one can make accurate *quantitative* predictions for the learning of wide nets using the NTK. See, for example, Figure 2 of [[Lee et al. (2019)]](https://arxiv.org/abs/1902.06720).
 
-Motivated by the NTK, people found new and clever ways to ask and answer for kernel regression the questions we *want* answered of deep learning. This gave the field a useful new tool and has led to some moderately valuable insights. Kernel models will appear a few other times in other chapters of this guide.
+Motivated by the NTK, people found new and clever ways to ask and answer for kernel regression the questions we *want* answered of deep learning. This gave the field a useful new tool and has led to some moderately valuable insights. For example, networks in the NTK limit always converge to zero training loss so long as the learning rate isn't too big, and this served as a useful demonstration of how overparameterization usually makes optimization *easier,* not harder. Kernel models will appear a few other times in other chapters of this guide.
 
 ### The dynamics of feature learning: the maximal update parameterization ($\mu$P)
 
@@ -91,12 +91,12 @@ Here’s the evolution of ideas, some key papers, and key takeaways:
     - It’s worth understanding what “lazy” training is, and how an output multiplier can make any neural network train lazily.
 - [[Mei et al (2018)]](https://arxiv.org/abs/1804.06561) pointed out a “mean-field” parameterization that allows infinite-width shallow neural nets to learn features.
     - This may be an easier place to start than $\mu$P, but if you understand $\mu$P, you can skip mean-field nets for now.
-- [[Yang and Hu (2021)]](https://proceedings.mlr.press/v139/yang21c.html) pointed out a way that layerwise init sizes + learning rates can scale with network width so that the network learns features to leading order *even at infinite width.* They call this the “maximal update parameterization” (muP, or $\mu$P).
+- [[Yang and Hu (2021)]](https://proceedings.mlr.press/v139/yang21c.html) extended this insight to deep networks. They pointed out a way that layerwise init sizes + learning rates can scale with network width so that a deep network learns features to leading order even at infinite width. They call this the “maximal update parameterization” (muP, or $\mu$P).
     - The core idea here is extremely important and can be understood in simple terms. Their “Tensor Programs” and “abc-param” frameworks are fairly complicated — you don’t need to understand either to get the main gist. [[Yang et al. (2023)]](https://arxiv.org/abs/2310.17813) gives a simpler framing of the big idea here.
 - [[Yang et al. (2022)]](https://arxiv.org/abs/2203.03466) showed that this parameterization is practically useful: it lets one scale up neural networks while preserving network hyperparameters. (More on this in [our discussion of hyperparameters](hyperparameter-selection.html).)
-    - This is widely hailed as the first practically impactful achievement of deep learning theory.
+    - This is probably the first practically impactful achievement of deep learning theory in the modern era, so it's worth thinking about seriously.
 
-These “rich,” feature learning, $\mu$P dynamics led to a paradigm shift in deep learning theory. Most later work uses or relates to it in some way. It’s thus very important to understand. Any deep learning theorist should be able to sit down and derive the $\mu$P parameterization, or something equivalent to it, from first principles. It’s difficult to do relevant work in 2025 without it!
+These “rich,” feature learning, $\mu$P dynamics led to a paradigm shift in deep learning theory. Most later work uses or relates to it in some way. It’s thus very important to understand. A seasoned deep learning theorist should be able to sit down and derive the $\mu$P parameterization, or something equivalent to it, from first principles. It’s difficult to do relevant work in 2025 without it!
 
 It’s worth noting that, unlike the NTK limit, the $\mu$P limit is very difficult to study analytically. In the NTK limit, we have kernel behavior, simple gradient descent dynamics, a convex loss surface (using squared loss), and lots of older theoretical tools that we can bring to bear. In the $\mu$P limit, we have none of this. To our knowledge, nobody’s even shown a general result that a deep network in the $\mu$P limit *converges,* let alone characterized the solution that’s found!
 
@@ -106,7 +106,7 @@ It’s worth noting that, unlike the NTK limit, the $\mu$P limit is very difficu
 
 </div>
 
-In the NTK limit, we can study the model with the well-established math of kernel theory (which has been developed further expressly for the study of the NTK). In the $\mu$P limit, the best we have so far are rather complex calculational frameworks:
+In the NTK limit, we can study the model with the well-established math of kernel theory, which already existed and has now been developed further expressly for the study of the NTK. In the $\mu$P limit, the best we have so far are rather complex calculational frameworks:
 
 - The dynamical mean-field theory (DMFT) frameworks of [[Bordelon and Pehlevan (2022)]](https://arxiv.org/abs/2205.09653) and [[Dandi et al. (2024)]](https://arxiv.org/abs/2402.03220) let one compute feature distributions of infinite-width networks in the rich regime, but it is quite complicated, and it is difficult to extract analytical insight. (It is nonetheless useful for scaling calculations.) The Tensor Programs framework of [[Yang and Hu (2021)]](https://proceedings.mlr.press/v139/yang21c.html) allows one to perform the same calculations with random matrix theory language.
     - These are specialized tools and are not essential on a first pass through deep learning theory.
@@ -119,7 +119,7 @@ In the NTK limit, we can study the model with the well-established math of kerne
 
 ### Onwards: towards infinite depth
 
-Early in this chapter, we took width to infinity, which allowed us a host of useful calculational tools. We can also take depth to infinity. There are several ways to do this, but the upshot is that one quickly encounters stability problems, so a ResNet formulation in which each layer gets a small premultiplier seems like the most promising choice.
+Early in this chapter, we took width to infinity, which allowed us a host of useful calculational tools. We can also take depth to infinity. There are several ways to do this, but the upshot is that one quickly encounters stability problems with a standard MLP, so a ResNet formulation in which each layer gets a small premultiplier seems like the most promising choice.
 
 - [[Bordelon et al. (2023)]](https://arxiv.org/abs/2309.16620) and [[Yang et al. (2023)]](https://arxiv.org/abs/2310.02244) give treatments of $\mu$P at large depth. They conclude with slightly different scaling recommendations for layerwise premultipliers.
     - This is probably useful to understand for the future but is not yet essential knowledge. As with $\mu$P, the most important thing to get out of either paper is the scaling calculation that gives the hyperparameter prescription.

@@ -96,7 +96,7 @@
       <li>Notice that one can make accurate <em>quantitative</em> predictions for the learning of wide nets using the NTK. See, for example, Figure 2 of <a href="https://arxiv.org/abs/1902.06720">[Lee et al. (2019)]</a>.</li>
       </ul></li>
       </ul>
-      <p>Motivated by the NTK, people found new and clever ways to ask and answer for kernel regression the questions we <em>want</em> answered of deep learning. This gave the field a useful new tool and has led to some moderately valuable insights. Kernel models will appear a few other times in other chapters of this guide.</p>
+      <p>Motivated by the NTK, people found new and clever ways to ask and answer for kernel regression the questions we <em>want</em> answered of deep learning. This gave the field a useful new tool and has led to some moderately valuable insights. For example, networks in the NTK limit always converge to zero training loss so long as the learning rate isn’t too big, and this served as a useful demonstration of how overparameterization usually makes optimization <em>easier,</em> not harder. Kernel models will appear a few other times in other chapters of this guide.</p>
       <h3 id="the-dynamics-of-feature-learning-the-maximal-update-parameterization-mup">The dynamics of feature learning: the maximal update parameterization (<span class="math inline">\(\mu\)</span>P)</h3>
       <p>After the development of the NTK, people quickly noticed that networks in this limit don’t exhibit feature learning. That is, at infinite width, the hidden neurons of a network represent the same functions after training as they did at initialization. At large-but-finite width, the change is finite but negligible. This is a first clue that the wonderful, analytically tractable NTK limit isn’t the end of the story.</p>
       <p>For a few years, it seemed like we might have to give up on infinite-width networks. Fortunately, it turned out that there’s <em>another</em> coherent infinite-width limit in which things scale differently, and the network <em>does</em> actually undergo feature learning. This is the regime in which most deep learning theory now takes place.</p>
@@ -110,21 +110,21 @@
       <ul>
       <li>This may be an easier place to start than <span class="math inline">\(\mu\)</span>P, but if you understand <span class="math inline">\(\mu\)</span>P, you can skip mean-field nets for now.</li>
       </ul></li>
-      <li><a href="https://proceedings.mlr.press/v139/yang21c.html">[Yang and Hu (2021)]</a> pointed out a way that layerwise init sizes + learning rates can scale with network width so that the network learns features to leading order <em>even at infinite width.</em> They call this the “maximal update parameterization” (muP, or <span class="math inline">\(\mu\)</span>P).
+      <li><a href="https://proceedings.mlr.press/v139/yang21c.html">[Yang and Hu (2021)]</a> extended this insight to deep networks. They pointed out a way that layerwise init sizes + learning rates can scale with network width so that a deep network learns features to leading order even at infinite width. They call this the “maximal update parameterization” (muP, or <span class="math inline">\(\mu\)</span>P).
       <ul>
       <li>The core idea here is extremely important and can be understood in simple terms. Their “Tensor Programs” and “abc-param” frameworks are fairly complicated — you don’t need to understand either to get the main gist. <a href="https://arxiv.org/abs/2310.17813">[Yang et al. (2023)]</a> gives a simpler framing of the big idea here.</li>
       </ul></li>
       <li><a href="https://arxiv.org/abs/2203.03466">[Yang et al. (2022)]</a> showed that this parameterization is practically useful: it lets one scale up neural networks while preserving network hyperparameters. (More on this in <a href="hyperparameter-selection.html">our discussion of hyperparameters</a>.)
       <ul>
-      <li>This is widely hailed as the first practically impactful achievement of deep learning theory.</li>
+      <li>This is probably the first practically impactful achievement of deep learning theory in the modern era, so it’s worth thinking about seriously.</li>
       </ul></li>
       </ul>
-      <p>These “rich,” feature learning, <span class="math inline">\(\mu\)</span>P dynamics led to a paradigm shift in deep learning theory. Most later work uses or relates to it in some way. It’s thus very important to understand. Any deep learning theorist should be able to sit down and derive the <span class="math inline">\(\mu\)</span>P parameterization, or something equivalent to it, from first principles. It’s difficult to do relevant work in 2025 without it!</p>
+      <p>These “rich,” feature learning, <span class="math inline">\(\mu\)</span>P dynamics led to a paradigm shift in deep learning theory. Most later work uses or relates to it in some way. It’s thus very important to understand. A seasoned deep learning theorist should be able to sit down and derive the <span class="math inline">\(\mu\)</span>P parameterization, or something equivalent to it, from first principles. It’s difficult to do relevant work in 2025 without it!</p>
       <p>It’s worth noting that, unlike the NTK limit, the <span class="math inline">\(\mu\)</span>P limit is very difficult to study analytically. In the NTK limit, we have kernel behavior, simple gradient descent dynamics, a convex loss surface (using squared loss), and lots of older theoretical tools that we can bring to bear. In the <span class="math inline">\(\mu\)</span>P limit, we have none of this. To our knowledge, nobody’s even shown a general result that a deep network in the <span class="math inline">\(\mu\)</span>P limit <em>converges,</em> let alone characterized the solution that’s found!</p>
       <div class="question-box">
       <p><strong>Open question:</strong> when does a network in the <span class="math inline">\(\mu\)</span>P limit converge under gradient descent?</p>
       </div>
-      <p>In the NTK limit, we can study the model with the well-established math of kernel theory (which has been developed further expressly for the study of the NTK). In the <span class="math inline">\(\mu\)</span>P limit, the best we have so far are rather complex calculational frameworks:</p>
+      <p>In the NTK limit, we can study the model with the well-established math of kernel theory, which already existed and has now been developed further expressly for the study of the NTK. In the <span class="math inline">\(\mu\)</span>P limit, the best we have so far are rather complex calculational frameworks:</p>
       <ul>
       <li>The dynamical mean-field theory (DMFT) frameworks of <a href="https://arxiv.org/abs/2205.09653">[Bordelon and Pehlevan (2022)]</a> and <a href="https://arxiv.org/abs/2402.03220">[Dandi et al. (2024)]</a> let one compute feature distributions of infinite-width networks in the rich regime, but it is quite complicated, and it is difficult to extract analytical insight. (It is nonetheless useful for scaling calculations.) The Tensor Programs framework of <a href="https://proceedings.mlr.press/v139/yang21c.html">[Yang and Hu (2021)]</a> allows one to perform the same calculations with random matrix theory language.
       <ul>
@@ -135,7 +135,7 @@
       <p><strong>Open question:</strong> is there a simple calculational framework — potentially making realistic simplifying assumptions — that allows us to quantitatively study feature evolution in the rich regime?</p>
       </div>
       <h3 id="onwards-towards-infinite-depth">Onwards: towards infinite depth</h3>
-      <p>Early in this chapter, we took width to infinity, which allowed us a host of useful calculational tools. We can also take depth to infinity. There are several ways to do this, but the upshot is that one quickly encounters stability problems, so a ResNet formulation in which each layer gets a small premultiplier seems like the most promising choice.</p>
+      <p>Early in this chapter, we took width to infinity, which allowed us a host of useful calculational tools. We can also take depth to infinity. There are several ways to do this, but the upshot is that one quickly encounters stability problems with a standard MLP, so a ResNet formulation in which each layer gets a small premultiplier seems like the most promising choice.</p>
       <ul>
       <li><a href="https://arxiv.org/abs/2309.16620">[Bordelon et al. (2023)]</a> and <a href="https://arxiv.org/abs/2310.02244">[Yang et al. (2023)]</a> give treatments of <span class="math inline">\(\mu\)</span>P at large depth. They conclude with slightly different scaling recommendations for layerwise premultipliers.
       <ul>
