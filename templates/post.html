@@ -28,13 +28,15 @@
 
   <article>
     <header>
-      <h1>$title$</h1>
       $if(sequence_title)$
       $if(sequence_order)$$if(sequence_order_1)$
       <div class="sequence-header">
         <h1 class="sequence-name">$sequence_title$</h1>
       </div>
       $endif$$endif$
+      $endif$
+      <h1>$title$</h1>
+      $if(sequence_title)$
       <div class="sequence-nav">
         Part $sequence_part$ of <a href="$path_prefix$$sequence_first_url$">$sequence_title$</a>$if(prev_url)$$if(next_url)$ (<a href="$path_prefix$$prev_url$">prev</a> | <a href="$path_prefix$$next_url$">next</a>)$else$ (<a href="$path_prefix$$prev_url$">prev</a>)$endif$$else$$if(next_url)$ (<a href="$path_prefix$$next_url$">next</a>)$endif$$endif$
       </div>
