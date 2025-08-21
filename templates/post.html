@@ -30,8 +30,13 @@
     <header>
       <h1>$title$</h1>
       $if(sequence_title)$
+      $if(sequence_order)$$if(sequence_order_1)$
+      <div class="sequence-header">
+        <h1 class="sequence-name">$sequence_title$</h1>
+      </div>
+      $endif$$endif$
       <div class="sequence-nav">
-        Part $sequence_part$ of <a href="$path_prefix$index.html">$sequence_title$</a>$if(prev_url)$$if(next_url)$ (<a href="$path_prefix$$prev_url$">prev</a> | <a href="$path_prefix$$next_url$">next</a>)$else$ (<a href="$path_prefix$$prev_url$">prev</a>)$endif$$else$$if(next_url)$ (<a href="$path_prefix$$next_url$">next</a>)$endif$$endif$
+        Part $sequence_part$ of <a href="$path_prefix$$sequence_first_url$">$sequence_title$</a>$if(prev_url)$$if(next_url)$ (<a href="$path_prefix$$prev_url$">prev</a> | <a href="$path_prefix$$next_url$">next</a>)$else$ (<a href="$path_prefix$$prev_url$">prev</a>)$endif$$else$$if(next_url)$ (<a href="$path_prefix$$next_url$">next</a>)$endif$$endif$
       </div>
       $endif$
       <hr class="title-separator">
@@ -40,6 +45,11 @@
         $if(date)$<br><time datetime="$date$">$date$</time>$endif$
       </div>
       <hr class="metadata-separator">
+      $if(sequence_order_1)$
+      <div class="full-width-figure banner-image">
+        <img src="$path_prefix$static/learning_mech_wallpaper.png" alt="Learning Mechanics Banner">
+      </div>
+      $endif$
     </header>
 
     <main>

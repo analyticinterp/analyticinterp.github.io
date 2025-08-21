@@ -40,9 +40,7 @@
 
 /* Full-width image and caption styling */
 .full-width-figure {
-  width: 100vw;
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
+  width: 100%;
   margin-top: 2em;
   margin-bottom: 2em;
   text-align: center;
@@ -59,6 +57,26 @@
   margin-top: 0.75em;
   padding: 0 2em;
   line-height: 1.4;
+}
+
+/* Sequence header styling */
+.sequence-header {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.sequence-name {
+  font-size: 2.5em;
+  font-weight: bold;
+  color: var(--heading-color);
+  margin: 0;
+  line-height: 1.2;
+}
+
+/* Banner image styling */
+.banner-image {
+  margin-top: 2em;
+  margin-bottom: 3em;
 }
 
 /* Theme toggle button */
