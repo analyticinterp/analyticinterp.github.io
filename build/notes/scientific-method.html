@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>On the scientific method and how to bring it to bear - Learning Mechanics</title>
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../static/math-render.js"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Our minimal styles -->
+  <link rel="stylesheet" href="../static/style.css">
+  
+  <!-- Meta tags -->
+  <meta name="description" content="Applying rigorous scientific methodology to the study of deep learning systems.">
+  <meta name="author" content="Florentin Guth">
+  <meta name="date" content="2025-09-01">
+</head>
+<body id="top">
+  <a href="../index.html" class="home-glyph"><i class="fas fa-home"></i></a>
+  <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+
+  <article>
+    <header>
+            
+            <h1>On the scientific method and how to bring it to bear</h1>
+            <div class="sequence-nav">
+        Part 2 of <a href="../notes/long-run-payoff.html">Notes on the Science of Deep Learning</a> (<a href="../notes/long-run-payoff.html">prev</a> | <a href="../notes/science-as-mapmaking.html">next</a>)
+      </div>
+            <hr class="title-separator">
+      <div class="metadata">
+        Florentin Guth
+        <br><time datetime="2025-09-01">2025-09-01</time>
+      </div>
+      <hr class="metadata-separator">
+          </header>
+
+    <main>
+      <p>[TO BE WRITTEN]</p>
+    </main>
+  </article>
+
+  <hr><div class="sequence-toc"><h3>Notes on the Science of Deep Learning</h3><ol><li><a href="../notes/long-run-payoff.html">🚧 Understanding Deep Learning Will Pay Off in the Long Run</a></li><li><strong>🚧 On the scientific method and how to bring it to bear</strong></li><li><a href="../notes/science-as-mapmaking.html">🚧 Science as Mapmaking</a></li></ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <script src="https://giscus.app/client.js"
+            data-repo="analyticinterp/analyticinterp.github.io"
+            data-repo-id="R_kgDONkWUAw"
+            data-category="General"
+            data-category-id=""
+            data-mapping="pathname"
+            data-theme="light"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+
+
+  <script>
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      // Update button icon
+      const icon = document.querySelector('.theme-toggle i');
+      icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+      // Update Giscus theme
+      const giscusFrame = document.querySelector('iframe.giscus-frame');
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage({
+          giscus: { setConfig: { theme: newTheme } }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize theme on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      // Update button icon
+      const icon = document.querySelector('.theme-toggle i');
+      icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+    });
+  </script>
+</body>
+</html> 
