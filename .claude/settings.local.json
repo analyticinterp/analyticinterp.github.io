@@ -11,7 +11,10 @@
       "Bash(python:*)",
       "Bash(git rm:*)",
       "Bash(git push:*)",
-      "Bash(gh repo view --web)"
+      "Bash(gh repo view --web)",
+      "Bash(git commit:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)"
     ],
     "deny": [],
     "ask": []

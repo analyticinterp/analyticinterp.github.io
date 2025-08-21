@@ -10,8 +10,6 @@ sequence_description: "A comprehensive guide to understanding the mathematical f
 sequence_order: 2
 ---
 
-# Want to understand the average size of hidden representations?
-
 You should! This is foundational for understanding everything else about the dynamics of neural networks.
 
 Historically, the first questions people tried to answer about neural networks dealt with their performance and representations: how can we characterize how well our network performs, and what hidden representations do they learn as they train? We’ll revisit these questions later in a modern light, but suffice it to say that they are hard and it’s unclear where to start. In rigorous science, it’s usually a good idea to be humble about what you can understand and to start with the dumbest, simplest question you think you can answer, working up from there. It turns out that the simplest useful theoretical question you can ask about neural networks is: *as you forward-propagate your signal and backprop your gradient, roughly how big are the (pre)activations and gradients on average?*

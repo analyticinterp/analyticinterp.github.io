@@ -28,9 +28,10 @@
 
   <article>
     <header>
-      <h1>Want to understand the average size of hidden representations?</h1>
+            
+            <h1>Want to understand the average size of hidden representations?</h1>
             <div class="sequence-nav">
-        Part 2 of <a href="../index.html">A Quickstart Guide to Learning Mechanics</a> (<a href="../quickstart/introduction.html">prev</a> | <a href="../quickstart/hyperparameter-selection.html">next</a>)
+        Part 2 of <a href="../quickstart/introduction.html">A Quickstart Guide to Learning Mechanics</a> (<a href="../quickstart/introduction.html">prev</a> | <a href="../quickstart/hyperparameter-selection.html">next</a>)
       </div>
             <hr class="title-separator">
       <div class="metadata">
@@ -38,10 +39,9 @@
         <br><time datetime="2025-09-01">2025-09-01</time>
       </div>
       <hr class="metadata-separator">
-    </header>
+          </header>
 
     <main>
-      <h1 id="want-to-understand-the-average-size-of-hidden-representations">Want to understand the average size of hidden representations?</h1>
       <p>You should! This is foundational for understanding everything else about the dynamics of neural networks.</p>
       <p>Historically, the first questions people tried to answer about neural networks dealt with their performance and representations: how can we characterize how well our network performs, and what hidden representations do they learn as they train? We’ll revisit these questions later in a modern light, but suffice it to say that they are hard and it’s unclear where to start. In rigorous science, it’s usually a good idea to be humble about what you can understand and to start with the dumbest, simplest question you think you can answer, working up from there. It turns out that the simplest useful theoretical question you can ask about neural networks is: <em>as you forward-propagate your signal and backprop your gradient, roughly how big are the (pre)activations and gradients on average?</em></p>
       <p>More precisely: suppose we have an input vector <span class="math inline">\(\mathbf{x}\)</span> (an image, token, set of features, etc.), and we start propagating forward through our network, stopping part way. Denote by <span class="math inline">\(\mathbf{h}_\ell(\mathbf{x})\)</span> the hidden representations after applying the <span class="math inline">\(\ell\)</span>-th linear layer. What’s the typical size of an element of <span class="math inline">\(\mathbf{h}_\ell(\mathbf{x})\)</span>? If you want a mathematical metric for this, you might study the root-mean-squared size</p>
