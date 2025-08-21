@@ -32,9 +32,8 @@ jobs:
 
       - name: Install Pandoc
         run: |
-          wget https://github.com/jgm/pandoc/releases/latest/download/pandoc-3.1.12.1-linux-amd64.tar.gz
-          tar xzf pandoc-3.1.12.1-linux-amd64.tar.gz
-          sudo cp pandoc-3.1.12.1/bin/pandoc /usr/local/bin/
+          sudo apt-get update
+          sudo apt-get install -y pandoc
           pandoc --version
 
       - name: Build site
