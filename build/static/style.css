@@ -194,7 +194,11 @@ blockquote {
   font-style: italic;
 }
 
-/* Math display */
+/* Math display and inline - scale to match ET Book font size */
+.katex {
+  font-size: 1.05em; /* Scale down math to match text better */
+}
+
 .katex-display {
   overflow-x: auto;
   overflow-y: hidden;

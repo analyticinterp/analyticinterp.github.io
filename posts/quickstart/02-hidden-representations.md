@@ -20,7 +20,7 @@ $$
 q_\ell(\mathbf{x}) := \frac{|\!|{\mathbf{h}_\ell(\mathbf{x})}|\!|}{\sqrt{\text{size}[\mathbf{h}_\ell(\mathbf{x})]}}.
 $$
 
-You don't want $q_\ell(\mathbf{x})$ to either blow up or vanish as you propagate forwards through the network. If either happens, you'll be feeding very large or very small arguments to your activation function^[…or feeding very large or small values to a norm layer, or representing them in finite precision and losing bits, or some other malady.], which is generally a bad idea. In a neural network of many layers, problems like this tend to get worse as you propagate through more and more layers, so you want to avoid them from the get go.
+You don't want $q_\ell(\mathbf{x})$ to either blow up or vanish as you propagate forwards through the network. If either happens, you'll be feeding very large or very small arguments to your activation function,^[…or feeding very large or small values to a norm layer, or representing them in finite precision and losing bits, or some other malady.] which is generally a bad idea. In a neural network of many layers, problems like this tend to get worse as you propagate through more and more layers, so you want to avoid them from the get go.
 
 ### First steps: LeCun initialization and large width
 
@@ -30,21 +30,21 @@ $$
 W_{ij} \sim \mathcal{N}(0, \sigma^2),
 $$
 
-where $\sigma^2 = \frac{1}{\text{[fan in]}}$. By a central limit theorem calculation, this ensures that well-behaved activations in the previous layer mean well-behaved preactivations in the following layer, at least at initialization.
+where $\sigma^2 = \frac{1}{\text{[fan in]}}$, the preactivations are better controlled. By a central limit theorem calculation, this init size ensures that well-behaved activations in the previous layer mean well-behaved preactivations in the following layer, at least at initialization.
 
 - This scheme is now called LeCun initialization after [[LeCun et al. (1996)]](https://link.springer.com/chapter/10.1007/978-3-642-35289-8_3).
 
 This is the first calculation any new deep learning scientist should be able to perform! Get comfortable with this kind of central limit theorem argument.
 
-The central limit theorem works best as the number of added terms grows. This suggests that, when studying any sort of signal propagation problem, it’s a good and useful idea to consider the case of large width. **This is the consideration that motivates the study of infinite-width networks, which are now central in the mathematical science of deep learning.** It’s very important to think about this enough to have intuition for why the large-width limit is useful.
+The central limit theorem gives the best approximation for a sum as the number of added terms grows. This suggests that, when studying any sort of signal propagation problem, it’s a good and useful idea to consider the case of large width. **This is the consideration that motivates the study of infinite-width networks, which are now central in the mathematical science of deep learning.** It’s very important to think about this enough to have intuition for why the large-width limit is useful.
 
 ### Infinite-width nets at init: signal propagation and the NNGP
 
 A natural next question is: *what else can you say about wide neural networks at initialization?* The answer unfolds in the following sequence.
 
-First, you can perform a close study of the “signal sizes” $q_\ell(\mathbf{x})$ as well as the correlations $c_\ell(\mathbf{x}, \mathbf{x}') := \langle \mathbf{h}_\ell(\mathbf{x}), \mathbf{h}_\ell(\mathbf{x}') \rangle$. You can actually calculate both of these exactly at infinite width using Gaussian integrals.
+First, you can perform a close study of the “signal sizes” $q_\ell(\mathbf{x})$ as well as the correlations $c_\ell(\mathbf{x}, \mathbf{x}') := \langle \mathbf{h}_\ell(\mathbf{x}), \mathbf{h}_\ell(\mathbf{x}') \rangle$. You can actually calculate both of these *exactly* at infinite width using Gaussian integrals.
 
-- See [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340) for a derivation physicists will like and [[Daniely et al. (2016)]](https://arxiv.org/abs/1602.05897) for a more formal treatment mathematicians will like.
+- See [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340) for a derivation physicists will like and [[Daniely et al. (2016)]](https://arxiv.org/abs/1602.05897) for a more formal treatment better suited for mathematicians.
     - It’s worth getting to the point where you understand either Eqns (1-5) from [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340)  or Sections 5 and 8 from [Daniely et al (2016)]. The other stuff — chaos, computational graphs, and so on — is cool but not essential.
 - See [[Schoenholz et al. (2016)]](https://arxiv.org/abs/1611.01232) for a similar size analysis for the backpropagated gradients.
 
@@ -52,7 +52,7 @@ Next, you can study not only the *averages* of these quantities but also their c
 
 - This was first worked out for shallow networks by [[Neal (1996)]](https://glizen.com/radfordneal/ftp/pin.pdf). It took another two decades before it was extended to deep networks by [[Lee et al. (2017)]](https://arxiv.org/abs/1711.00165).
 
-It’s very worth working through the neural network Gaussian process (NNGP) idea and getting intuition for both GPs and the forward-prop statistics that give a GP in this context. Notice that MLPs have NNGPs with rotation-invariant kernels.
+It’s very worth working through the neural network Gaussian process (NNGP) idea and getting intuition for both GPs and the forward-prop statistics that give a GP in this context. Notice that MLPs have NNGPs with rotation-invariant kernels. This will remain a useful intuition.
 
 At this point in our discussion, we already have papers that have calculated average-case quantities exactly which agree well with experiments using networks with widths in the hundreds or thousands. Look at how good the agreement is in these plots:
 
@@ -77,11 +77,13 @@ The primary consequence is that, in this limit, the learning dynamics of a neura
     - The NTK idea is a bit too technical to explain here (though we sure want to), but it’s all but essential to understand it before moving on to feature learning. It’s worth allocating some time, working through one of these papers, and making sure you’ve extracted the simple core idea. It’s also worth thinking carefully about linear models and kernel regression, as these will return later as first models for other learning phenomena.
     - Notice that one can make accurate *quantitative* predictions for the learning of wide nets using the NTK. See, for example, Figure 2 of [[Lee et al. (2019)]](https://arxiv.org/abs/1902.06720).
 
+Motivated by the NTK, people found new and clever ways to ask and answer for kernel regression the questions we *want* answered of deep learning. This gave the field a useful new tool and has led to some moderately valuable insights. Kernel models will appear a few other times in other chapters of this guide.
+
 ### The dynamics of feature learning: the maximal update parameterization ($\mu$P)
 
 After the development of the NTK, people quickly noticed that networks in this limit don’t exhibit feature learning. That is, at infinite width, the hidden neurons of a network represent the same functions after training as they did at initialization. At large-but-finite width, the change is finite but negligible. This is a first clue that the wonderful, analytically tractable NTK limit isn’t the end of the story.
 
-For a few years, it seemed like we might have to give up on infinite-width networks. Fortunately, it turned out that there’s *another* coherent infinite-width limit in which things scale differently, and the network *does* actually undergo feature learning. This is the limit in which most deep learning theory now takes place.
+For a few years, it seemed like we might have to give up on infinite-width networks. Fortunately, it turned out that there’s *another* coherent infinite-width limit in which things scale differently, and the network *does* actually undergo feature learning. This is the regime in which most deep learning theory now takes place.
 
 Here’s the evolution of ideas, some key papers, and key takeaways:
 
@@ -91,7 +93,7 @@ Here’s the evolution of ideas, some key papers, and key takeaways:
     - This may be an easier place to start than $\mu$P, but if you understand $\mu$P, you can skip mean-field nets for now.
 - [[Yang and Hu (2021)]](https://proceedings.mlr.press/v139/yang21c.html) pointed out a way that layerwise init sizes + learning rates can scale with network width so that the network learns features to leading order *even at infinite width.* They call this the “maximal update parameterization” (muP, or $\mu$P).
     - The core idea here is extremely important and can be understood in simple terms. Their “Tensor Programs” and “abc-param” frameworks are fairly complicated — you don’t need to understand either to get the main gist. [[Yang et al. (2023)]](https://arxiv.org/abs/2310.17813) gives a simpler framing of the big idea here.
-- [[Yang et al. (2022)]](https://arxiv.org/abs/2203.03466) showed that this parameterization is practically useful: it lets one scale up neural networks while preserving network hyperparameters. (More on this in [our discussion of hyperparameters](LINK).)
+- [[Yang et al. (2022)]](https://arxiv.org/abs/2203.03466) showed that this parameterization is practically useful: it lets one scale up neural networks while preserving network hyperparameters. (More on this in [our discussion of hyperparameters](hyperparameter-selection.html).)
     - This is widely hailed as the first practically impactful achievement of deep learning theory.
 
 These “rich,” feature learning, $\mu$P dynamics led to a paradigm shift in deep learning theory. Most later work uses or relates to it in some way. It’s thus very important to understand. Any deep learning theorist should be able to sit down and derive the $\mu$P parameterization, or something equivalent to it, from first principles. It’s difficult to do relevant work in 2025 without it!
