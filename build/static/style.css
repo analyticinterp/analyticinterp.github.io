@@ -1,6 +1,11 @@
 /* ET Book web font */
 @import url('https://edwardtufte.github.io/et-book/et-book.css');
 
+/* Smooth scrolling for anchor links */
+html {
+  scroll-behavior: smooth;
+}
+
 /* Minimal academic blog styles - inspired by traditional academic papers */
 :root {
   --max-width: 42em;  /* Narrower for focused reading */
