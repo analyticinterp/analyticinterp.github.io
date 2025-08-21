@@ -307,7 +307,7 @@ blockquote {
   color: var(--text-color);
   background: var(--code-bg);
   padding: 1.5em;
-  margin-bottom: 0.5em;
+  margin-bottom: 2em;
   border-left: 3px solid transparent;
   transition: all 0.2s ease;
   cursor: pointer;

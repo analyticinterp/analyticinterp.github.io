@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Want to understand the convergence and stability of optimization? - Learning Mechanics</title>
+  
+  <!-- KaTeX for math rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <script defer src="../../static/math-render.js"></script>
+  
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Our minimal styles -->
+  <link rel="stylesheet" href="../../static/style.css">
+  
+  <!-- Meta tags -->
+  <meta name="description" content="Mathematical analysis of optimization algorithms in deep learning and their convergence properties.">
+  <meta name="author" content="[long list of authors]">
+  <meta name="date" content="2025-09-01">
+</head>
+<body id="top">
+  <a href="../../" class="home-glyph"><i class="fas fa-home"></i></a>
+  <button class="theme-toggle" onclick="toggleTheme()"><i class="fas fa-sun"></i></button>
+
+  <article>
+    <header>
+            
+            <h1>Want to understand the convergence and stability of optimization?</h1>
+            <div class="sequence-nav">
+        Part 4 of <a href="../../quickstart/introduction/">A Quickstart Guide to Learning Mechanics</a> (<a href="../../quickstart/hyperparameter-selection/">prev</a> | <a href="../../quickstart/feature-learning/">next</a>)
+      </div>
+            <hr class="title-separator">
+      <div class="metadata">
+        [long list of authors]
+        <br><time datetime="2025-09-01">2025-09-01</time>
+      </div>
+      <hr class="metadata-separator">
+          </header>
+
+    <main>
+      <p>[TO BE WRITTEN]</p>
+      <p>some facts about DL are clear in practice but really hard to show mathematically!</p>
+      <p>one of these is: why does optimization work at all?</p>
+      <ul>
+      <li>we can make models</li>
+      <li>loss surfaces; study of convex loss surfaces</li>
+      <li>NTK (+ overparam more generally)</li>
+      </ul>
+      <p>okay, what do we know about optimization in the real world?</p>
+      <ul>
+      <li>EoS</li>
+      <li>central flows?</li>
+      <li>maybe I can get Jeremy to write this one.</li>
+      </ul>
+      <p>can we do better than GD?</p>
+      <ul>
+      <li>optimizers, Muon, etc.</li>
+      </ul>
+    </main>
+  </article>
+
+  <hr><div class="sequence-toc"><h3>A Quickstart Guide to Learning Mechanics</h3><ol><li><a href="../../quickstart/introduction/">Introduction: what do you want to understand?</a></li><li><a href="../../quickstart/hidden-representations/">...the average size of hidden representations?</a></li><li><a href="../../quickstart/hyperparameter-selection/">🚧 ...hyperparameter selection (and why should theorists care)?</a></li><li><strong>🚧 ...the convergence and stability of optimization?</strong></li><li><a href="../../quickstart/feature-learning/">🚧 ...feature learning and the final network weights?</a></li><li><a href="../../quickstart/generalization/">🚧 ...generalization?</a></li><li><a href="../../quickstart/sparsity/">🚧 ...neuron-level sparsity?</a></li><li><a href="../../quickstart/data-structure/">🚧 ...the structure in the data?</a></li><li><a href="../../quickstart/conclusion/">🚧 Places to make a difference</a></li></ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>
+
+  <div class="comments">
+    <h2>Comments</h2>
+    <script src="https://giscus.app/client.js"
+            data-repo="analyticinterp/analyticinterp.github.io"
+            data-repo-id="R_kgDONkWUAw"
+            data-category="General"
+            data-category-id=""
+            data-mapping="pathname"
+            data-theme="light"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
+    </script>
+  </div>
+
+
+  <script>
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      
+      // Update button icon
+      const icon = document.querySelector('.theme-toggle i');
+      icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+      // Update Giscus theme
+      const giscusFrame = document.querySelector('iframe.giscus-frame');
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage({
+          giscus: { setConfig: { theme: newTheme } }
+        }, 'https://giscus.app');
+      }
+    }
+    
+    // Initialize theme on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      
+      // Update button icon
+      const icon = document.querySelector('.theme-toggle i');
+      icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+    });
+  </script>
+</body>
+</html> 
