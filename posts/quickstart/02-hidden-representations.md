@@ -20,7 +20,7 @@ $$
 q_\ell(\mathbf{x}) := \frac{|\!|{\mathbf{h}_\ell(\mathbf{x})}|\!|}{\sqrt{\text{size}[\mathbf{h}_\ell(\mathbf{x})]}}.
 $$
 
-You don’t want $q_\ell(\mathbf{x})$ to either blow up or vanish as you propagate forwards through the network. If either happens, you’ll be feeding very large or very small arguments to your activation function[FOOTNOTE: …or feeding very large or small values to a norm layer, or representing them in finite precision and losing bits, or some other malady.], which is generally a bad idea. In a neural network of many layers, problems like this tend to get worse as you propagate through more and more layers, so you want to avoid them from the get go.
+You don't want $q_\ell(\mathbf{x})$ to either blow up or vanish as you propagate forwards through the network. If either happens, you'll be feeding very large or very small arguments to your activation function^[…or feeding very large or small values to a norm layer, or representing them in finite precision and losing bits, or some other malady.], which is generally a bad idea. In a neural network of many layers, problems like this tend to get worse as you propagate through more and more layers, so you want to avoid them from the get go.
 
 ### First steps: LeCun initialization and large width
 
