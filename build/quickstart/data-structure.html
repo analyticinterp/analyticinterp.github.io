@@ -60,22 +60,18 @@
   <div class="comments">
     <h2>Comments</h2>
     <script src="https://giscus.app/client.js"
-      data-repo="analyticinterp/analyticinterp.github.io"
-      data-repo-id="R_kgDONkWUAw"
-      data-category="Blog Comments"
-      data-category-id="DIC_kwDONkWUA84ClS5g"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="top"
-      data-theme="light"
-      data-lang="en"
-      data-loading="lazy"
-      crossorigin="anonymous"
-      async>
+            data-repo="analyticinterp/analyticinterp.github.io"
+            data-repo-id="R_kgDONkWUAw"
+            data-category="General"
+            data-category-id=""
+            data-mapping="pathname"
+            data-theme="preferred_color_scheme"
+            data-lang="en"
+            crossorigin="anonymous"
+            async>
     </script>
   </div>
+
 
   <script>
     function toggleTheme() {
@@ -88,18 +84,6 @@
       // Update button icon
       const icon = document.querySelector('.theme-toggle i');
       icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-      
-      // Update Giscus theme
-      const giscusFrame = document.querySelector('iframe.giscus-frame');
-      if (giscusFrame) {
-        giscusFrame.contentWindow.postMessage({
-          giscus: {
-            setConfig: {
-              theme: newTheme
-            }
-          }
-        }, 'https://giscus.app');
-      }
     }
     
     // Initialize theme on page load
@@ -110,12 +94,6 @@
       // Update button icon
       const icon = document.querySelector('.theme-toggle i');
       icon.className = savedTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
-      
-      // Set initial Giscus theme
-      const giscusScript = document.querySelector('script[src="https://giscus.app/client.js"]');
-      if (giscusScript) {
-        giscusScript.setAttribute('data-theme', savedTheme);
-      }
       
     });
   </script>
