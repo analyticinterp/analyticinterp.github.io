@@ -6,6 +6,7 @@ Minimal pandoc-based static blog generator
 import os
 import re
 import json
+import yaml
 import subprocess
 from datetime import datetime
 from pathlib import Path
@@ -164,10 +165,31 @@ def build_post(markdown_file, output_dir, metadata, sequence_nav=None):
         print(f"✗ Failed to build {markdown_file}: {e.stderr}")
         return None
 
+def load_sequence_metadata():
+    """Load sequence metadata from YAML files"""
+    sequences_dir = Path('sequences')
+    sequence_metadata = {}
+    
+    if sequences_dir.exists():
+        for yaml_file in sequences_dir.glob('*.yaml'):
+            try:
+                with open(yaml_file, 'r') as f:
+                    metadata = yaml.safe_load(f)
+                    sequence_id = metadata.get('sequence_id')
+                    if sequence_id:
+                        sequence_metadata[sequence_id] = metadata
+            except Exception as e:
+                print(f"Warning: Could not load sequence metadata from {yaml_file}: {e}")
+    
+    return sequence_metadata
+
 def generate_index(posts, output_dir):
     """Generate the index page with list of posts grouped by sequences"""
     # Filter out the about page from the main list
     article_posts = [p for p in posts if p['slug'] != 'about']
+    
+    # Load sequence metadata
+    sequence_metadata = load_sequence_metadata()
     
     # Group posts by sequence
     sequences = {}
@@ -175,11 +197,24 @@ def generate_index(posts, output_dir):
         sequence_key = post.get('sequence', f"standalone-{post['slug']}")
         
         if sequence_key not in sequences:
-            sequences[sequence_key] = {
-                'title': post.get('sequence_title', post['title']),
-                'description': post.get('sequence_description', post.get('description', '')),
-                'posts': []
-            }
+            # Use sequence metadata if available, otherwise fall back to post metadata
+            if sequence_key in sequence_metadata:
+                meta = sequence_metadata[sequence_key]
+                sequences[sequence_key] = {
+                    'title': meta.get('title', post.get('sequence_title', post['title'])),
+                    'description': meta.get('description', post.get('sequence_description', post.get('description', ''))),
+                    'authors': meta.get('authors', []),
+                    'date': meta.get('date', ''),
+                    'posts': []
+                }
+            else:
+                sequences[sequence_key] = {
+                    'title': post.get('sequence_title', post['title']),
+                    'description': post.get('sequence_description', post.get('description', '')),
+                    'authors': [],
+                    'date': '',
+                    'posts': []
+                }
         
         sequences[sequence_key]['posts'].append(post)
     
@@ -187,12 +222,22 @@ def generate_index(posts, output_dir):
     for sequence in sequences.values():
         sequence['posts'].sort(key=lambda p: p.get('sequence_order', 1))
     
-    # Sort sequences by date of first post (newest first)
+    # Sort sequences by date of sequence metadata (newest first), fallback to first post date
     sequence_list = []
     for seq_key, seq_data in sequences.items():
         first_post = seq_data['posts'][0]
-        seq_data['date'] = first_post.get('date', '')
-        seq_data['author'] = first_post.get('author', '')
+        
+        # Use sequence metadata date if available, otherwise use first post date
+        if not seq_data['date']:
+            seq_data['date'] = first_post.get('date', '')
+        
+        # Use sequence metadata authors if available, otherwise use first post author
+        if not seq_data['authors']:
+            seq_data['author'] = first_post.get('author', '')
+        else:
+            # Join multiple authors with commas
+            seq_data['author'] = ', '.join(seq_data['authors'])
+        
         sequence_list.append(seq_data)
     
     sequence_list.sort(key=lambda s: s.get('date', ''), reverse=True)
