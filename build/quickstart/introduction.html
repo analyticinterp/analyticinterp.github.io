@@ -71,7 +71,7 @@
             data-category="General"
             data-category-id=""
             data-mapping="pathname"
-            data-theme="preferred_color_scheme"
+            data-theme="light"
             data-lang="en"
             crossorigin="anonymous"
             async>
@@ -90,6 +90,14 @@
       // Update button icon
       const icon = document.querySelector('.theme-toggle i');
       icon.className = newTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+      
+      // Update Giscus theme
+      const giscusFrame = document.querySelector('iframe.giscus-frame');
+      if (giscusFrame) {
+        giscusFrame.contentWindow.postMessage({
+          giscus: { setConfig: { theme: newTheme } }
+        }, 'https://giscus.app');
+      }
     }
     
     // Initialize theme on page load
