@@ -3,6 +3,6 @@ title: "A Quickstart Guide to Learning Mechanics"
 description: "A comprehensive guide to understanding the mathematical foundations of deep learning, from optimization to generalization."
 authors: ["[long list of authors]"]
 date: "2025-09-01"
-sequence_emoji: "⚡"
+# sequence_emoji: "⚡"
 # sequence_color: [249, 246, 240]
 # sequence_color_dark: [50, 47, 42]

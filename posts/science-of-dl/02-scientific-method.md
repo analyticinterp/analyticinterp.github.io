@@ -1,5 +1,5 @@
 ---
-title: "The scientific method in two steps"
+title: "The scientific method in two steps and how to use it in deep learning"
 author: "Jamie Simon"
 date: "2025-09-01"
 description: ""
