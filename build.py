@@ -233,6 +233,7 @@ def generate_index(posts, output_dir):
                     'date': meta.get('date', ''),
                     'sequence_color': meta.get('sequence_color', None),
                     'sequence_color_dark': meta.get('sequence_color_dark', None),
+                    'sequence_emoji': meta.get('sequence_emoji', None),
                     'posts': []
                 }
             else:
@@ -243,6 +244,7 @@ def generate_index(posts, output_dir):
                     'date': '',
                     'sequence_color': None,
                     'sequence_color_dark': None,
+                    'sequence_emoji': None,
                     'posts': []
                 }
         
@@ -314,8 +316,13 @@ def generate_index(posts, output_dir):
         else:
             css_class_attr = 'sequence-box'
         
+        # Add emoji if available
+        title_with_emoji = sequence['title']
+        if sequence.get('sequence_emoji'):
+            title_with_emoji = f"{sequence['sequence_emoji']} {sequence['title']}"
+        
         sequence_html = f'''      <div class="{css_class_attr}" onclick="location.href='{first_post_url}'">
-        <div class="sequence-title">{sequence['title']}</div>'''
+        <div class="sequence-title">{title_with_emoji}</div>'''
         
         # Add author and date on separate lines
         if sequence['author'] and sequence['author'] != AUTHOR:
