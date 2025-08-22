@@ -16,7 +16,7 @@ from xml.dom import minidom
 # Configuration
 SITE_URL = "https://analyticinterp.github.io"
 SITE_TITLE = "Learning Mechanics"
-SITE_DESCRIPTION = "Understanding deep learning through theory"
+SITE_DESCRIPTION = "The mathematical science of neural network training"
 AUTHOR = "Analytic Interpretability Team"
 
 def extract_metadata(filepath):
