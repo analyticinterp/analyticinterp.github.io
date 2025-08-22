@@ -7,85 +7,85 @@
     <language>en-us</language>
     <item>
       <title>Want to understand feature learning and the final network weights?</title>
-      <link>https://analyticinterp.github.io/feature-learning.html</link>
-      <guid>https://analyticinterp.github.io/feature-learning.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/feature-learning.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/feature-learning.html</guid>
       <description>How neural networks learn features and the mathematical structure of final network weights.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Want to understand the convergence and stability of optimization?</title>
-      <link>https://analyticinterp.github.io/optimization.html</link>
-      <guid>https://analyticinterp.github.io/optimization.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/optimization.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/optimization.html</guid>
       <description>Mathematical analysis of optimization algorithms in deep learning and their convergence properties.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Want to understand the structure in the data?</title>
-      <link>https://analyticinterp.github.io/data-structure.html</link>
-      <guid>https://analyticinterp.github.io/data-structure.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/data-structure.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/data-structure.html</guid>
       <description>How deep networks discover and exploit structural patterns in high-dimensional data.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Want to understand hyperparameter selection (and why should theorists care)?</title>
-      <link>https://analyticinterp.github.io/hyperparameter-selection.html</link>
-      <guid>https://analyticinterp.github.io/hyperparameter-selection.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/hyperparameter-selection.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/hyperparameter-selection.html</guid>
       <description>The theoretical foundations of hyperparameter optimization and its importance for understanding deep learning.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Places to make a difference</title>
-      <link>https://analyticinterp.github.io/conclusion.html</link>
-      <guid>https://analyticinterp.github.io/conclusion.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/conclusion.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/conclusion.html</guid>
       <description>coming soon</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Want to understand generalization?</title>
-      <link>https://analyticinterp.github.io/generalization.html</link>
-      <guid>https://analyticinterp.github.io/generalization.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/generalization.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/generalization.html</guid>
       <description>The mathematical theory behind why deep networks generalize well to unseen data.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Introduction: what do you want to understand?</title>
-      <link>https://analyticinterp.github.io/introduction.html</link>
-      <guid>https://analyticinterp.github.io/introduction.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/introduction.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/introduction.html</guid>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Want to understand the average size of hidden representations?</title>
-      <link>https://analyticinterp.github.io/hidden-representations.html</link>
-      <guid>https://analyticinterp.github.io/hidden-representations.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/hidden-representations.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/hidden-representations.html</guid>
       <description>Exploring the mathematical properties of hidden layer representations and their average magnitudes.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
       <title>Want to understand neuron-level sparsity?</title>
-      <link>https://analyticinterp.github.io/sparsity.html</link>
-      <guid>https://analyticinterp.github.io/sparsity.html</guid>
+      <link>https://analyticinterp.github.io/quickstart/sparsity.html</link>
+      <guid>https://analyticinterp.github.io/quickstart/sparsity.html</guid>
       <description>Mathematical analysis of sparsity patterns in neural network activations and weights.</description>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>Understanding Deep Learning Will Pay Off in the Long Run</title>
-      <link>https://analyticinterp.github.io/long-run-payoff.html</link>
-      <guid>https://analyticinterp.github.io/long-run-payoff.html</guid>
-      <description>Why investing in fundamental understanding of deep learning theory is crucial for long-term progress.</description>
+      <title>Understanding deep learning will pay off in the long run</title>
+      <link>https://analyticinterp.github.io/science-of-dl/long-run-payoff.html</link>
+      <guid>https://analyticinterp.github.io/science-of-dl/long-run-payoff.html</guid>
+      <description/>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>On the scientific method and how to bring it to bear</title>
-      <link>https://analyticinterp.github.io/scientific-method.html</link>
-      <guid>https://analyticinterp.github.io/scientific-method.html</guid>
-      <description>Applying rigorous scientific methodology to the study of deep learning systems.</description>
+      <title>The scientific method in two steps</title>
+      <link>https://analyticinterp.github.io/science-of-dl/scientific-method.html</link>
+      <guid>https://analyticinterp.github.io/science-of-dl/scientific-method.html</guid>
+      <description/>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
     <item>
-      <title>Science as Mapmaking</title>
-      <link>https://analyticinterp.github.io/science-as-mapmaking.html</link>
-      <guid>https://analyticinterp.github.io/science-as-mapmaking.html</guid>
-      <description>How scientific research creates maps of knowledge that guide future exploration and discovery.</description>
+      <title>Science as mapmaking</title>
+      <link>https://analyticinterp.github.io/science-of-dl/science-as-mapmaking.html</link>
+      <guid>https://analyticinterp.github.io/science-of-dl/science-as-mapmaking.html</guid>
+      <description/>
       <pubDate>Mon, 01 Sep 2025 00:00:00 +0000</pubDate>
     </item>
   </channel>

@@ -146,7 +146,33 @@ def build_post(markdown_file, output_dir, metadata, sequence_nav=None):
                 else:
                     toc_items.append(f'<a href="{metadata.get("path_prefix", "")}{post_url}">{display_title}</a>')
             
-            toc_html = f'<hr><div class="sequence-toc"><h3>{metadata.get("sequence_title", "")}</h3><ol>{"".join(f"<li>{item}</li>" for item in toc_items)}</ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>'
+            # Generate custom CSS for sequence colors if available
+            sequence_color = metadata.get('sequence_color')
+            sequence_color_dark = metadata.get('sequence_color_dark')
+            sequence_key = metadata.get('sequence', '')
+            
+            if sequence_color and isinstance(sequence_color, list) and len(sequence_color) == 3:
+                # Generate unique CSS class for this sequence
+                css_class = f'sequence-toc-{sequence_key}'
+                light_color = f'rgb({sequence_color[0]}, {sequence_color[1]}, {sequence_color[2]})'
+                
+                if sequence_color_dark and isinstance(sequence_color_dark, list) and len(sequence_color_dark) == 3:
+                    dark_color = f'rgb({sequence_color_dark[0]}, {sequence_color_dark[1]}, {sequence_color_dark[2]})'
+                else:
+                    dark_color = light_color  # Fallback to light color
+                
+                # Create CSS with both light and dark mode colors
+                sequence_css = f'''
+<style>
+.{css_class} {{ background-color: {light_color}; }}
+[data-theme="dark"] .{css_class} {{ background-color: {dark_color}; }}
+</style>'''
+                css_class_attr = f' class="sequence-toc {css_class}"'
+            else:
+                sequence_css = ''
+                css_class_attr = ' class="sequence-toc"'
+            
+            toc_html = f'<hr>{sequence_css}<div{css_class_attr}><h3>{metadata.get("sequence_title", "")}</h3><ol>{"".join(f"<li>{item}</li>" for item in toc_items)}</ol></div><div class="back-to-top"><a href="#top"><i class="fas fa-arrow-circle-up"></i></a></div>'
             
             # Read the generated HTML file
             with open(output_file, 'r') as f:
@@ -166,20 +192,20 @@ def build_post(markdown_file, output_dir, metadata, sequence_nav=None):
         return None
 
 def load_sequence_metadata():
-    """Load sequence metadata from YAML files"""
-    sequences_dir = Path('sequences')
+    """Load sequence metadata from sequence-metadata.yaml files in post directories"""
+    posts_dir = Path('posts')
     sequence_metadata = {}
     
-    if sequences_dir.exists():
-        for yaml_file in sequences_dir.glob('*.yaml'):
+    if posts_dir.exists():
+        for metadata_file in posts_dir.rglob('sequence-metadata.yaml'):
             try:
-                with open(yaml_file, 'r') as f:
+                with open(metadata_file, 'r') as f:
                     metadata = yaml.safe_load(f)
                     sequence_id = metadata.get('sequence_id')
                     if sequence_id:
                         sequence_metadata[sequence_id] = metadata
             except Exception as e:
-                print(f"Warning: Could not load sequence metadata from {yaml_file}: {e}")
+                print(f"Warning: Could not load sequence metadata from {metadata_file}: {e}")
     
     return sequence_metadata
 
@@ -205,6 +231,8 @@ def generate_index(posts, output_dir):
                     'description': meta.get('description', post.get('sequence_description', post.get('description', ''))),
                     'authors': meta.get('authors', []),
                     'date': meta.get('date', ''),
+                    'sequence_color': meta.get('sequence_color', None),
+                    'sequence_color_dark': meta.get('sequence_color_dark', None),
                     'posts': []
                 }
             else:
@@ -213,6 +241,8 @@ def generate_index(posts, output_dir):
                     'description': post.get('sequence_description', post.get('description', '')),
                     'authors': [],
                     'date': '',
+                    'sequence_color': None,
+                    'sequence_color_dark': None,
                     'posts': []
                 }
         
@@ -244,8 +274,11 @@ def generate_index(posts, output_dir):
     
     # Generate sequence HTML
     post_html = []
+    sequence_css_rules = []
     for sequence in sequence_list:
         first_post = sequence['posts'][0]
+        # Get the sequence key from the first post
+        seq_key = first_post.get('sequence', f"standalone-{first_post['slug']}")
         
         # Format the date nicely
         if 'date' in sequence:
@@ -257,9 +290,31 @@ def generate_index(posts, output_dir):
         else:
             date_str = ''
         
-        # Start sequence box
+        # Start sequence box with background color if available
         first_post_url = first_post.get('url_path', f"{first_post['slug']}.html")
-        sequence_html = f'''      <div class="sequence-box" onclick="location.href='{first_post_url}'">
+        sequence_color = sequence.get('sequence_color')
+        sequence_color_dark = sequence.get('sequence_color_dark')
+        
+        if sequence_color and isinstance(sequence_color, list) and len(sequence_color) == 3:
+            # Generate unique CSS class for this sequence
+            css_class = f'sequence-box-{seq_key}'
+            light_color = f'rgb({sequence_color[0]}, {sequence_color[1]}, {sequence_color[2]})'
+            
+            if sequence_color_dark and isinstance(sequence_color_dark, list) and len(sequence_color_dark) == 3:
+                dark_color = f'rgb({sequence_color_dark[0]}, {sequence_color_dark[1]}, {sequence_color_dark[2]})'
+            else:
+                dark_color = light_color  # Fallback to light color
+            
+            # Store CSS for later injection into the page
+            sequence_css_rules.append(f'''
+.{css_class} {{ background-color: {light_color}; }}
+[data-theme="dark"] .{css_class} {{ background-color: {dark_color}; }}''')
+            
+            css_class_attr = f'sequence-box {css_class}'
+        else:
+            css_class_attr = 'sequence-box'
+        
+        sequence_html = f'''      <div class="{css_class_attr}" onclick="location.href='{first_post_url}'">
         <div class="sequence-title">{sequence['title']}</div>'''
         
         # Add author and date on separate lines
@@ -293,7 +348,16 @@ def generate_index(posts, output_dir):
     with open('templates/index.html', 'r') as f:
         template = f.read()
 
+    # Generate CSS for sequence colors
+    sequence_css = ''
+    if sequence_css_rules:
+        sequence_css = f'<style>{"".join(sequence_css_rules)}</style>'
+
     html = template.replace('<!-- POSTS_PLACEHOLDER -->', '\n'.join(post_html))
+    
+    # Inject sequence CSS into the head (look for </head> tag)
+    if sequence_css:
+        html = html.replace('</head>', f'  {sequence_css}\n</head>')
     
     # Write index file
     with open(output_dir / 'index.html', 'w') as f:
@@ -320,8 +384,8 @@ def generate_rss(posts, output_dir):
     for post in posts[:20]:  # Latest 20 posts
         item = SubElement(channel, 'item')
         SubElement(item, 'title').text = post['title']
-        SubElement(item, 'link').text = f"{SITE_URL}/{post['slug']}.html"
-        SubElement(item, 'guid').text = f"{SITE_URL}/{post['slug']}.html"
+        SubElement(item, 'link').text = f"{SITE_URL}/{post.get('url_path', post['slug'] + '.html')}"
+        SubElement(item, 'guid').text = f"{SITE_URL}/{post.get('url_path', post['slug'] + '.html')}"
         
         if 'description' in post:
             SubElement(item, 'description').text = post['description']
@@ -377,14 +441,25 @@ def main():
         print("No markdown files found in posts/")
         return
     
+    # Load sequence metadata
+    sequence_metadata = load_sequence_metadata()
+    
     # First pass: collect metadata from all posts and generate URL paths
     posts_metadata = []
     file_to_metadata = {}
     for md_file in markdown_files:
         metadata = extract_metadata(md_file)
         if metadata:
-            # Generate URL path and path prefix
+            # Inject sequence metadata if the post belongs to a sequence
             sequence_key = metadata.get('sequence', '')
+            if sequence_key and sequence_key in sequence_metadata:
+                seq_meta = sequence_metadata[sequence_key]
+                metadata['sequence_title'] = seq_meta.get('title', '')
+                metadata['sequence_description'] = seq_meta.get('description', '')
+                metadata['sequence_color'] = seq_meta.get('sequence_color', None)
+                metadata['sequence_color_dark'] = seq_meta.get('sequence_color_dark', None)
+            
+            # Generate URL path and path prefix
             if sequence_key and sequence_key != f"standalone-{metadata['slug']}":
                 metadata['url_path'] = f"{sequence_key}/{metadata['slug']}.html"
                 metadata['path_prefix'] = "../"

@@ -3,7 +3,6 @@ title: "Introduction: what do you want to understand?"
 author: "[long list of authors]"
 date: "2025-09-01"
 sequence: "quickstart"
-sequence_title: "A Quickstart Guide to Learning Mechanics"
 sequence_order: 1
 ---
 

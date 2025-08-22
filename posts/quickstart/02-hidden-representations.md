@@ -5,7 +5,6 @@ author: "[long list of authors]"
 date: "2025-09-01"
 description: "Exploring the mathematical properties of hidden layer representations and their average magnitudes."
 sequence: "quickstart"
-sequence_title: "A Quickstart Guide to Learning Mechanics"
 sequence_description: "A comprehensive guide to understanding the mathematical foundations of deep learning, from optimization to generalization."
 sequence_order: 2
 ---
