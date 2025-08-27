@@ -44,7 +44,7 @@ A natural next question is: *what else can you say about wide neural networks at
 First, you can perform a close study of the “signal sizes” $q_\ell(\mathbf{x})$ as well as the correlations $c_\ell(\mathbf{x}, \mathbf{x}') := \langle \mathbf{h}_\ell(\mathbf{x}), \mathbf{h}_\ell(\mathbf{x}') \rangle$. You can actually calculate both of these *exactly* at infinite width using Gaussian integrals.
 
 - See [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340) for a derivation physicists will like and [[Daniely et al. (2016)]](https://arxiv.org/abs/1602.05897) for a more formal treatment better suited for mathematicians.
-    - It’s worth getting to the point where you understand either Eqns (1-5) from [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340)  or Sections 5 and 8 from [Daniely et al (2016)]. The other stuff — chaos, computational graphs, and so on — is cool but not essential.
+    - It’s worth getting to the point where you understand either Eqns (1-5) from [[Poole et al. (2016)]](https://arxiv.org/abs/1606.05340)  or Sections 5 and 8 from [[Daniely et al. (2016)]](https://arxiv.org/abs/1602.05897). The other stuff — chaos, computational graphs, and so on — is cool but not essential.
 - See [[Schoenholz et al. (2016)]](https://arxiv.org/abs/1611.01232) for a similar size analysis for the backpropagated gradients.
 
 Next, you can study not only the *averages* of these quantities but also their complete *distributions*. It turns out they’re Gaussian at initialization (surprise, surprise) and the network function value itself is a “Gaussian process” with a covariance kernel that you can obtain in closed form.
@@ -58,6 +58,7 @@ At this point in our discussion, we already have papers that have calculated ave
 <div class="full-width-figure">
 <img src="../static/great_dl_th-exp_plots.png" alt="Theory-experiment agreement plots" style="width: 80%;">
 <div class="figure-caption"><b>Top: signal propagation of layerwise correlations for a deep $\tanh$ net from <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>.</b> Blue, green, and red sets of curves correspond to weight initialization variances $\sigma_w^2 = \{1.3, 2.3, 4.0\}$. Different saturations correspond to different initial correlations. Experiment dots lie very close to the theory curves. <b>Bottom: performance of NNGP regression vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">Lee et al. (2017)</a>.</b> Left subplot shows the test accuracy of GP regression with a depth-50 $\tanh$ NNGP on MNIST. Right subplot shows prediction of the ordered and chaotic regimes using the same machinery as <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>. The best performance falls near the boundary between order and chaos. It's significant that we can quantitatively predict the structure of a phase diagram of model performance, even in a simplified setting like NNGP regression.
+</div>
 </div>
 
 It’s worth appreciating that extremely good agreement with experiment is possible if we’re studying the right objects in the right regimes. Most deep learning theory work that can’t get agreement this good eventually fades or is replaced by something that does. It’s usually wise to insist on a quantitative match from your theory and be satisfied with nothing less.

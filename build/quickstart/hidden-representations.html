@@ -66,7 +66,7 @@
       <ul>
       <li>See <a href="https://arxiv.org/abs/1606.05340">[Poole et al. (2016)]</a> for a derivation physicists will like and <a href="https://arxiv.org/abs/1602.05897">[Daniely et al. (2016)]</a> for a more formal treatment better suited for mathematicians.
       <ul>
-      <li>It’s worth getting to the point where you understand either Eqns (1-5) from <a href="https://arxiv.org/abs/1606.05340">[Poole et al. (2016)]</a> or Sections 5 and 8 from [Daniely et al (2016)]. The other stuff — chaos, computational graphs, and so on — is cool but not essential.</li>
+      <li>It’s worth getting to the point where you understand either Eqns (1-5) from <a href="https://arxiv.org/abs/1606.05340">[Poole et al. (2016)]</a> or Sections 5 and 8 from <a href="https://arxiv.org/abs/1602.05897">[Daniely et al. (2016)]</a>. The other stuff — chaos, computational graphs, and so on — is cool but not essential.</li>
       </ul></li>
       <li>See <a href="https://arxiv.org/abs/1611.01232">[Schoenholz et al. (2016)]</a> for a similar size analysis for the backpropagated gradients.</li>
       </ul>
@@ -80,6 +80,7 @@
       <img src="../static/great_dl_th-exp_plots.png" alt="Theory-experiment agreement plots" style="width: 80%;">
       <div class="figure-caption">
       <p><b>Top: signal propagation of layerwise correlations for a deep <span class="math inline">\(\tanh\)</span> net from <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>.</b> Blue, green, and red sets of curves correspond to weight initialization variances <span class="math inline">\(\sigma_w^2 = \{1.3, 2.3, 4.0\}\)</span>. Different saturations correspond to different initial correlations. Experiment dots lie very close to the theory curves. <b>Bottom: performance of NNGP regression vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">Lee et al. (2017)</a>.</b> Left subplot shows the test accuracy of GP regression with a depth-50 <span class="math inline">\(\tanh\)</span> NNGP on MNIST. Right subplot shows prediction of the ordered and chaotic regimes using the same machinery as <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>. The best performance falls near the boundary between order and chaos. It’s significant that we can quantitatively predict the structure of a phase diagram of model performance, even in a simplified setting like NNGP regression.</p>
+      </div>
       </div>
       <p>It’s worth appreciating that extremely good agreement with experiment is possible if we’re studying the right objects in the right regimes. Most deep learning theory work that can’t get agreement this good eventually fades or is replaced by something that does. It’s usually wise to insist on a quantitative match from your theory and be satisfied with nothing less.</p>
       <h3 id="infinite-width-nets-under-gradient-descent-the-ntk">Infinite-width nets under gradient descent: the NTK</h3>
