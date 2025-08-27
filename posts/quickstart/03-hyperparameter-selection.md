@@ -22,7 +22,7 @@ While most hyperparameters are still waiting for good theory, we understand a fe
 <li><a href="#width-initialization-scale-and-learning-rate">Width, initialization scale, and learning rate</a></li>
 <li><a href="#wider-is-better">"Wider is better"</a></li>
 <li><a href="#depth">Depth</a></li>
-<li><a href="#batch-size-learning-rate-and-total-training-time">Batch size, learning rate, and total training time</a></li>
+<li><a href="#batch-size">Batch size</a></li>
 <li><a href="#transformer-specific-hyperparameters">Transformer-specific hyperparameters</a></li>
 <li><a href="#activation-function">Activation function</a></li>
 <li><a href="#new-frontiers">New frontiers</a></li>
@@ -170,13 +170,62 @@ The proper way to take depth to infinity involves a *ResNet formulation* with *d
 
 </div>
 
-### Batch size, learning rate, and total training time
+### Batch size
 
-???????
+Batch size is a tricky hyperparameter.
+At present, we have no unified theory like $\mu$P.
+The best we have are empirical rules of thumb.
+A larger batch size gives you a better estimate of the true population gradient, which is generally desirable.
+In general, the larger the batch size, the fewer steps you need to reach a particular loss level, but the more expensive a single batch is to compute.
+The optimal value will fall somewhere in between one and infinity, and will depend on the task, the learning rate, and potentially your compute budget.
+
+- [[McCandlish et al. (2018)]](https://arxiv.org/abs/1812.06162) find an empirical rule relating the covariance of the gradient over samples to the compute-optimal batch size. Their prescription is essentially to increase batch size until the gradient noise is roughly the same size as the true gradient you want to estimate. This seems to work well across many tasks.
+	- For theorists, the key material is probably Section 2.2. They use a simple calculation on a quadratic loss to estimate the effect of batch noise, and then simplify it with the (major) assumption that the loss Hessian is proportional to the identity. Despite these dramatic simplifications, they get out a prescription for batch size that seems to work empirically, which is a sign that there's probably something simple going on that we could understand.
+
+
+<div class="question-box">
+
+**Open question:** why does the batch size prescription of [[McCandlish et al. (2018)]](https://arxiv.org/abs/1812.06162) based on an assumption of isotropic, quadratic loss nonetheless predict compute-optimal batch size in a variety of realistic tasks?
+
+</div>
+
+We can study the effect of batch size in linear models, but of course linear models are not neural networks, and it's as yet unclear how to transfer insights.
+
+- [[Paquette et al. (2021)]](https://arxiv.org/abs/2102.04396) and [[Bordelon and Pehlevan (2022)]](https://arxiv.org/abs/2106.02713) study the optimization of SGD on linear models, including studies of the effective batch size.
+
+Understanding batch size in practical networks is a good open task for theorists.
+Until we have that understanding, when doing rigorous science, it's best to either train with a small enough learning rate that the batch size doesn't matter, or else tread with caution.
+
 
 ### Transformer-specific hyperparameters
 
-???????
+Transformers have a large number of architectural hyperparameters specific to their architectures.
+Basically every large model these days is or incorporates a transformer, so it's useful to study these hyperparameters.
+Of all the categories of hyperparameter, this is the most important for major industry labs, so they very likely know quite a bit that's not public knowledge, at least in the form of empirical rules of thumb.
+Here are some highlights of what is currently publicly known.
+
+- [[Bordelon et al. (2024)]](https://arxiv.org/abs/2405.15712) studied infinite-width limits in transformers. You can increase width either by increasing the number of attention heads or the size of each head, and these yield different infinite-width limits.
+- [[Hoffman et al. (2022)]](https://arxiv.org/abs/2203.15556) empirically study the tradeoff between dataset size, model size, and compute iterations. They find the "Chincilla rule" for LLM pretraining: the optimal scaling takes $B \cdot T / \text{[num. params.]} \approx 20$. That is, the batch size times the number of steps --- equal to the size of the dataset in online training --- is proportional to the model size, with a proportionality constant of about $20$.
+	- This is an extremely suggestive empirical finding, since it admits the interpretation that each parameter is "storing the information" of $20$ samples. The number $20$ isn't as important as the fact that these quantities are proportional. It seems likely that explaining this would be a major step in the quest to understand deep learning.
+- Within a transformer model family, it is common to scale width (i.e. the hidden dimension of token embeddings) up proportional to depth. Compare, for example, GPT-3 6.7B and 175B in [[Brown et al. (2020)]](https://arxiv.org/abs/2005.14165). It's not known why this is optimal.
+
+<div class="question-box">
+
+**Open question:** why is the compute-optimal prescription for LLMs a fixed number of parameters per token?
+
+</div>
+
+<div class="question-box">
+
+**Open question:** why is it optimal to scale transformer depth proportional to width?
+
+</div>
+
+<!-- <div class="question-box">
+
+**Open question:** what scaling prescriptions apply to mixtures of experts?
+
+</div> -->
 
 ### Activation function
 

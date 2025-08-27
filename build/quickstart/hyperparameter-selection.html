@@ -39,11 +39,11 @@
         <br><time datetime="2025-09-01">2025-09-01</time>
       </div>
       <hr class="metadata-separator">
-          </header>
+    </header>
 
     <main>
       <p>Training a neural network is a strange and mysterious process: a bewildering cavalcade of tensors is randomly initialized and subject to repeated gradient updates, and as a consequence of these simple operations, the whole thing <em>learns</em>. Meanwhile, before the process begins, you have to set your learning rate and some other fiddly knobs and dials. In comparison with the weights themselves, these hyperparameters might seem drab, technical and mundane; does a serious deep learning theorist really need to bother with them? It turns out the answer is emphatically “yes”: not only is the study of hyperparameters the easiest place for theory to make a practical impact, it’s also essential for the rest of the field, since any hyperparameter you can’t control for will interfere with your attempts to study anything else.</p>
-      <p>While most hyperparameters are still waiting for good theory, we understand a few. We’ll explain how theorists currently think about hyperparmeters, list off the successes, and point out some frontiers. This chapter will be comparatively long, so we’ll start with a table of contents.</p>
+      <p>While most hyperparameters are still waiting for good theory, we understand a few. We’ll explain how theorists currently think about hyperparameters, list off the successes, and point out some frontiers. This chapter will be comparatively long, so we’ll start with a table of contents.</p>
       <div class="sequence-toc">
       <h3>
       Want to understand hyperparameter selection?
@@ -68,7 +68,7 @@
       <a href="#depth">Depth</a>
       </li>
       <li>
-      <a href="#batch-size-learning-rate-and-total-training-time">Batch size, learning rate, and total training time</a>
+      <a href="#batch-size">Batch size</a>
       </li>
       <li>
       <a href="#transformer-specific-hyperparameters">Transformer-specific hyperparameters</a>
@@ -126,7 +126,7 @@
       <div class="question-box">
       <p><strong>Open question:</strong> why do <a href="https://arxiv.org/abs/2410.04642">[Atanasov et al. (2024)]</a> find that, in online training, networks with larger <span class="math inline">\(\gamma\)</span> generalize better (so long as they’re given enough training time to escape the initial plateau)?</p>
       </div>
-      <p>The ultra-rich regime is essentially the same as the small-initialization or “saddle-to-saddle” regime, which has been studied since before <span class="math inline">\(\mu\)</span>P. - <a href="https://arxiv.org/abs/2106.15933">[Jacot et al. (2021)]</a> coin the term “saddle-to-saddle” and describe the evolution of deep linear networks in this regime. They find a “greedy low-rank dynamics” and stepwise loss curves similar to those later seen in the ultra-rich regime. We will revist saddle-to-saddle dynamics in the (next chapter)[LINK].</p>
+      <p>The ultra-rich regime is essentially the same as the small-initialization or “saddle-to-saddle” regime, which has been studied since before <span class="math inline">\(\mu\)</span>P. - <a href="https://arxiv.org/abs/2106.15933">[Jacot et al. (2021)]</a> coin the term “saddle-to-saddle” and describe the evolution of deep linear networks in this regime. They find a “greedy low-rank dynamics” and stepwise loss curves similar to those later seen in the ultra-rich regime. We will revisit saddle-to-saddle dynamics in the <a href="optimization.html">next chapter</a>.</p>
       <h3 id="wider-is-better">“Wider is better”</h3>
       <p>Whenever we take a limit and thereby simplify our model, we ought to ask whether we’ve lost any essential behavior. In the case of infinite width, it’s generally believed that infinite width nets outperform finite width nets on realistic tasks when the hyperparameters are properly tuned, which suggests that the core phenomena of deep learning we wish to explain are still there in the limit.</p>
       <ul>
@@ -175,10 +175,43 @@
       <div class="question-box">
       <p><strong>Open question:</strong> is there a nontrivial counterexample for which deeper is not better?</p>
       </div>
-      <h3 id="batch-size-learning-rate-and-total-training-time">Batch size, learning rate, and total training time</h3>
-      <p>???????</p>
+      <h3 id="batch-size">Batch size</h3>
+      <p>Batch size is a tricky hyperparameter. At present, we have no unified theory like <span class="math inline">\(\mu\)</span>P. The best we have are empirical rules of thumb. A larger batch size gives you a better estimate of the true population gradient, which is generally desirable. In general, the larger the batch size, the fewer steps you need to reach a particular loss level, but the more expensive a single batch is to compute. The optimal value will fall somewhere in between one and infinity, and will depend on the task, the learning rate, and potentially your compute budget.</p>
+      <ul>
+      <li><a href="https://arxiv.org/abs/1812.06162">[McCandlish et al. (2018)]</a> find an empirical rule relating the covariance of the gradient over samples to the compute-optimal batch size. Their prescription is essentially to increase batch size until the gradient noise is roughly the same size as the true gradient you want to estimate. This seems to work well across many tasks.
+      <ul>
+      <li>For theorists, the key material is probably Section 2.2. They use a simple calculation on a quadratic loss to estimate the effect of batch noise, and then simplify it with the (major) assumption that the loss Hessian is proportional to the identity. Despite these dramatic simplifications, they get out a prescription for batch size that seems to work empirically, which is a sign that there’s probably something simple going on that we could understand.</li>
+      </ul></li>
+      </ul>
+      <div class="question-box">
+      <p><strong>Open question:</strong> why does the batch size prescription of <a href="https://arxiv.org/abs/1812.06162">[McCandlish et al. (2018)]</a> based on an assumption of isotropic, quadratic loss nonetheless predict compute-optimal batch size in a variety of realistic tasks?</p>
+      </div>
+      <p>We can study the effect of batch size in linear models, but of course linear models are not neural networks, and it’s as yet unclear how to transfer insights.</p>
+      <ul>
+      <li><a href="https://arxiv.org/abs/2102.04396">[Paquette et al. (2021)]</a> and <a href="https://arxiv.org/abs/2106.02713">[Bordelon and Pehlevan (2022)]</a> study the optimization of SGD on linear models, including studies of the effective batch size.</li>
+      </ul>
+      <p>Understanding batch size in practical networks is a good open task for theorists. Until we have that understanding, when doing rigorous science, it’s best to either train with a small enough learning rate that the batch size doesn’t matter, or else tread with caution.</p>
       <h3 id="transformer-specific-hyperparameters">Transformer-specific hyperparameters</h3>
-      <p>???????</p>
+      <p>Transformers have a large number of architectural hyperparameters specific to their architectures. Basically every large model these days is or incorporates a transformer, so it’s useful to study these hyperparameters. Of all the categories of hyperparameter, this is the most important for major industry labs, so they very likely know quite a bit that’s not public knowledge, at least in the form of empirical rules of thumb. Here are some highlights of what is currently publicly known.</p>
+      <ul>
+      <li><a href="https://arxiv.org/abs/2405.15712">[Bordelon et al. (2024)]</a> studied infinite-width limits in transformers. You can increase width either by increasing the number of attention heads or the size of each head, and these yield different infinite-width limits.</li>
+      <li><a href="https://arxiv.org/abs/2203.15556">[Hoffman et al. (2022)]</a> empirically study the tradeoff between dataset size, model size, and compute iterations. They find the “Chincilla rule” for LLM pretraining: the optimal scaling takes <span class="math inline">\(B \cdot T / \text{[num. params.]} \approx 20\)</span>. That is, the batch size times the number of steps — equal to the size of the dataset in online training — is proportional to the model size, with a proportionality constant of about <span class="math inline">\(20\)</span>.
+      <ul>
+      <li>This is an extremely suggestive empirical finding, since it admits the interpretation that each parameter is “storing the information” of <span class="math inline">\(20\)</span> samples. The number <span class="math inline">\(20\)</span> isn’t as important as the fact that these quantities are proportional. It seems likely that explaining this would be a major step in the quest to understand deep learning.</li>
+      </ul></li>
+      <li>Within a transformer model family, it is common to scale width (i.e. the hidden dimension of token embeddings) up proportional to depth. Compare, for example, GPT-3 6.7B and 175B in <a href="https://arxiv.org/abs/2005.14165">[Brown et al. (2020)]</a>. It’s not known why this is optimal.</li>
+      </ul>
+      <div class="question-box">
+      <p><strong>Open question:</strong> why is the compute-optimal prescription for LLMs a fixed number of parameters per token?</p>
+      </div>
+      <div class="question-box">
+      <p><strong>Open question:</strong> why is it optimal to scale transformer depth proportional to width?</p>
+      </div>
+      <!-- <div class="question-box">
+
+      **Open question:** what scaling prescriptions apply to mixtures of experts?
+
+      </div> -->
       <h3 id="activation-function">Activation function</h3>
       <p>This was probably the first seriously debated hyperparameter. It’s pretty easy to come up with new activation functions, and so there are many: classics like tanh and the sigmoid gave way to ReLU, and now we have variants including ELU, GELU, SELU, SwiGLU. Practically speaking, the upshot is that ReLU works pretty well, and you don’t need to look far from it.</p>
       <p>Why ReLU basically just works for everything remains poorly understood. A pretty good starting point is the deep information propagation analysis of <a href="https://arxiv.org/abs/1611.01232?">[Schoenholz et al. (2016)]</a>. Sitting with this for some time, you’ll find that ReLU has some desirable stability properties: it’s easy to initialize at the edge of chaos, and ReLU’s homogeneity means that the activation function “looks interesting” no matter the scale of the input. Nonetheless, despite a lot of effort in the late 2010s, people have basically stopped asking why ReLU is so good. We’ll list it here as an open question.</p>
@@ -214,10 +247,14 @@
     <h2>Comments</h2>
     <script src="https://giscus.app/client.js"
             data-repo="analyticinterp/analyticinterp.github.io"
-            data-repo-id="R_kgDONkWUAw"
-            data-category="General"
-            data-category-id=""
+            data-repo-id="R_kgDOO_nSsA"
+            data-category="Blog Comments"
+            data-category-id="DIC_kwDOO_nSsM4Cualh"
             data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="bottom"
             data-theme="light"
             data-lang="en"
             crossorigin="anonymous"
