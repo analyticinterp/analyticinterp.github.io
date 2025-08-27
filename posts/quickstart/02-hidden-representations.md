@@ -11,7 +11,7 @@ sequence_order: 2
 
 You should! This is foundational for understanding everything else about the dynamics of neural networks.
 
-Historically, the first questions people tried to answer about neural networks dealt with their performance and representations: how can we characterize how well our network performs, and what hidden representations do they learn as they train? We’ll revisit these questions later in a modern light, but suffice it to say that they are hard and it’s unclear where to start. In rigorous science, it’s usually a good idea to be humble about what you can understand and to start with the dumbest, simplest question you think you can answer, working up from there. It turns out that the simplest useful theoretical question you can ask about neural networks is: *as you forward-propagate your signal and backprop your gradient, roughly how big are the (pre)activations and gradients on average?*
+Historically, the first questions people tried to answer about neural networks dealt with their performance and representations: how can we characterize how well our network performs, and what hidden representations do they learn as they train? We’ll revisit these questions later in a modern light, but suffice it to say that they are hard and it’s unclear where to start. In rigorous science, it’s usually a good idea to be humble about what you can understand and to start with the dumbest, simplest question you think you can answer, working up from there. It turns out that the simplest useful theoretical question you can ask about neural networks is: *as you forward-propagate your signal and backprop your gradient, roughly how big are the (pre)activations and gradients on average?* Answering this is useful for understanding initialization, avoiding exploding or vanishing gradients, and getting stable optimization even in large models.
 
 More precisely: suppose we have an input vector $\mathbf{x}$ (an image, token, set of features, etc.), and we start propagating forward through our network, stopping part way. Denote by $\mathbf{h}_\ell(\mathbf{x})$ the hidden representations after applying the $\ell$-th linear layer. What’s the typical size of an element of $\mathbf{h}_\ell(\mathbf{x})$? If you want a mathematical metric for this, you might study the root-mean-squared size
 
@@ -19,7 +19,7 @@ $$
 q_\ell(\mathbf{x}) := \frac{|\!|{\mathbf{h}_\ell(\mathbf{x})}|\!|}{\sqrt{\text{size}[\mathbf{h}_\ell(\mathbf{x})]}}.
 $$
 
-You don't want $q_\ell(\mathbf{x})$ to either blow up or vanish as you propagate forwards through the network. If either happens, you'll be feeding very large or very small arguments to your activation function,^[…or feeding very large or small values to a norm layer, or representing them in finite precision and losing bits, or some other malady.] which is generally a bad idea. In a neural network of many layers, problems like this tend to get worse as you propagate through more and more layers, so you want to avoid them from the get go.
+You don't want $q_\ell(\mathbf{x})$ to either blow up or vanish as you propagate forwards through the network. If either happens, you'll be feeding very large or very small arguments to your activation function,^[…or feeding very large or small values to a norm layer, or representing them in finite precision and losing bits, or some other malady.] which is generally a bad idea.^[To see why we want order-one preactivations, imagine feeding either very small or very large values into the function $\phi(z) = \tanh(z)$. If the values are small, $\phi(z) \approx z$, and we've lost the nonlinearity we wanted. If the values are large, then $\phi(z) \approx \sign(z)$, and backpropagated gradients will be almost zero. With a homogeneous activation function like $\text{ReLU}$, we could in principle have very small or very large preactivations, but a careful study of the dynamics reveals that we don't actually gain anything by doing this, so we might as well always insist that preactivations should be order-one in distribution.] In a neural network of many layers, problems like this tend to get worse as you propagate through more and more layers, so you want to avoid them from the get go.
 
 ### First steps: LeCun initialization and large width
 
@@ -37,7 +37,7 @@ This is the first calculation any new deep learning scientist should be able to 
 
 The central limit theorem gives the best approximation for a sum as the number of added terms grows. This suggests that, when studying any sort of signal propagation problem, it’s a good and useful idea to consider the case of large width. **This is the consideration that motivates the study of infinite-width networks, which are now central in the mathematical science of deep learning.** It’s very important to think about this enough to have intuition for why the large-width limit is useful.
 
-### Infinite-width nets at init: signal propagation and the NNGP
+### Infinite-width nets at init: signal propagation and the neural network Gaussian process (NNGP)
 
 A natural next question is: *what else can you say about wide neural networks at initialization?* The answer unfolds in the following sequence.
 
@@ -49,15 +49,15 @@ First, you can perform a close study of the “signal sizes” $q_\ell(\mathbf{x
 
 Next, you can study not only the *averages* of these quantities but also their complete *distributions*. It turns out they’re Gaussian at initialization (surprise, surprise) and the network function value itself is a “Gaussian process” with a covariance kernel that you can obtain in closed form.
 
-- This was first worked out for shallow networks by [[Neal (1996)]](https://glizen.com/radfordneal/ftp/pin.pdf). It took another two decades before it was extended to deep networks by [[Lee et al. (2017)]](https://arxiv.org/abs/1711.00165).
+- This was first worked out for shallow networks by [[Neal (1996)]](https://glizen.com/radfordneal/ftp/pin.pdf). It took another two decades before it was extended to deep networks by [[Lee et al. (2017)]](https://arxiv.org/abs/1711.00165). If you train only the last layer of a wide neural network, the resulting learning rule is equivalent to [Gaussian process regression](https://en.wikipedia.org/wiki/Kriging) with the NNGP.
 
-It’s very worth working through the neural network Gaussian process (NNGP) idea and getting intuition for both GPs and the forward-prop statistics that give a GP in this context. Notice that MLPs have NNGPs with rotation-invariant kernels. This will remain a useful intuition.
+It’s very worth working through the NNGP idea and getting intuition for both GPs and the forward-prop statistics that give a GP in this context. Notice that MLPs have NNGPs with rotation-invariant kernels. This will remain a useful intuition.
 
 At this point in our discussion, we already have papers that have calculated average-case quantities exactly which agree well with experiments using networks with widths in the hundreds or thousands. Look at how good the agreement is in these plots:
 
 <div class="full-width-figure">
-<img src="../static/great_dl_th-exp_plots.png" alt="Theory-experiment agreement plots">
-<div class="figure-caption">Left: signal propagation of layerwise correlations from <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>. Right: performance vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">Lee et al. (2017)</a>. Now <em>that's</em> a theory-experiment match.</div>
+<img src="../static/great_dl_th-exp_plots.png" alt="Theory-experiment agreement plots" style="width: 80%;">
+<div class="figure-caption"><b>Top: signal propagation of layerwise correlations for a deep $\tanh$ net from <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>.</b> Blue, green, and red sets of curves correspond to weight initialization variances $\sigma_w^2 = \{1.3, 2.3, 4.0\}$. Different saturations correspond to different initial correlations. Experiment dots lie very close to the theory curves. <b>Bottom: performance of NNGP regression vs. ordered/chaotic regimes from <a href="https://arxiv.org/abs/1711.00165">Lee et al. (2017)</a>.</b> Left subplot shows the test accuracy of GP regression with a depth-50 $\tanh$ NNGP on MNIST. Right subplot shows prediction of the ordered and chaotic regimes using the same machinery as <a href="https://arxiv.org/abs/1606.05340">Poole et al. (2016)</a>. The best performance falls near the boundary between order and chaos. It's significant that we can quantitatively predict the structure of a phase diagram of model performance, even in a simplified setting like NNGP regression.
 </div>
 
 It’s worth appreciating that extremely good agreement with experiment is possible if we’re studying the right objects in the right regimes. Most deep learning theory work that can’t get agreement this good eventually fades or is replaced by something that does. It’s usually wise to insist on a quantitative match from your theory and be satisfied with nothing less.
