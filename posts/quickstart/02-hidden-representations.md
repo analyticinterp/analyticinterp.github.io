@@ -78,9 +78,11 @@ The primary consequence is that, in this limit, the learning dynamics of a neura
 
 Motivated by the NTK, people found new and clever ways to ask and answer for kernel regression the questions we *want* answered of deep learning. This gave the field a useful new tool and has led to some moderately valuable insights. For example, networks in the NTK limit always converge to zero training loss so long as the learning rate isn't too big, and this served as a useful demonstration of how overparameterization usually makes optimization *easier,* not harder. Kernel models will appear a few other times in other chapters of this guide.
 
-### The dynamics of feature learning: the maximal update parameterization ($\mu$P)
+### Scaling analysis of feature evolution: the maximal update parameterization ($\mu$P)
 
-After the development of the NTK, people quickly noticed that networks in this limit don’t exhibit feature learning. That is, at infinite width, the hidden neurons of a network represent the same functions after training as they did at initialization. At large-but-finite width, the change is finite but negligible. This is a first clue that the wonderful, analytically tractable NTK limit isn’t the end of the story.
+After the development of the NTK, people quickly noticed that networks in this limit don’t exhibit feature learning. That is, at infinite width, the hidden neurons of a network represent the same functions after training as they did at initialization. At large-but-finite width, the change is finite but negligible. This is a first clue that the pretty, analytically tractable NTK limit isn’t the end of the story.[^a]
+
+[^a]: There was a great deal of debate in this period as to whether the NTK limit of neural networks is a "good" or "bad" model for deep learning. In reality, for the phenomena it captures, it's just about the simplest, most tractable model that does, and it should usually be the first case you study. For the phenomena it doesn't capture, it's of course a bad model, and you can't study it to gain understanding. You should understand the NTK enough that you're wise enough to tell the difference, then learn the handful of useful phenomena it captures well.
 
 For a few years, it seemed like we might have to give up on infinite-width networks. Fortunately, it turned out that there’s *another* coherent infinite-width limit in which things scale differently, and the network *does* actually undergo feature learning. This is the regime in which most deep learning theory now takes place.
 
@@ -88,10 +90,10 @@ Here’s the evolution of ideas, some key papers, and key takeaways:
 
 - [[Chizat and Bach (2018)]](https://arxiv.org/abs/1812.07956) gave a “lazy” vs. “rich” dichotomy of gradient descent dynamics, using “lazy” to mean “kernel dynamics” and “rich” to mean “anything else.”
     - It’s worth understanding what “lazy” training is, and how an output multiplier can make any neural network train lazily.
-- [[Mei et al (2018)]](https://arxiv.org/abs/1804.06561) pointed out a “mean-field” parameterization that allows infinite-width shallow neural nets to learn features.
+- [[Mei et al (2018)]](https://arxiv.org/abs/1804.06561), [[Rotskoff and Vanden-Eijnden (2018)]](https://arxiv.org/abs/1805.00915), and a handful of other authors pointed out a “mean-field” parameterization that allows infinite-width shallow neural nets to learn features. They give it different names but describe the same parameterization.
     - This may be an easier place to start than $\mu$P, but if you understand $\mu$P, you can skip mean-field nets for now.
 - [[Yang and Hu (2021)]](https://proceedings.mlr.press/v139/yang21c.html) extended this insight to deep networks. They pointed out a way that layerwise init sizes + learning rates can scale with network width so that a deep network learns features to leading order even at infinite width. They call this the “maximal update parameterization” (muP, or $\mu$P).
-    - The core idea here is extremely important and can be understood in simple terms. Their “Tensor Programs” and “abc-param” frameworks are fairly complicated — you don’t need to understand either to get the main gist. [[Yang et al. (2023)]](https://arxiv.org/abs/2310.17813) gives a simpler framing of the big idea here.
+    - The core idea here is extremely important and can be understood in simple terms. Their “Tensor Programs” and “abc-param” frameworks are fairly complicated — you don’t need to understand either to get the main gist. [[Yang et al. (2023)]](https://arxiv.org/abs/2310.17813) give a simpler framing of the big idea here, and [[Karkada (2024)]](https://arxiv.org/abs/2404.19719) give a beginner-friendly tutorial of the NTK/$\mu$P story.
 - [[Yang et al. (2022)]](https://arxiv.org/abs/2203.03466) showed that this parameterization is practically useful: it lets one scale up neural networks while preserving network hyperparameters. (More on this in [our discussion of hyperparameters](hyperparameter-selection.html).)
     - This is probably the first practically impactful achievement of deep learning theory in the modern era, so it's worth thinking about seriously.
 

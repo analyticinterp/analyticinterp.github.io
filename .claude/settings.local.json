@@ -19,7 +19,8 @@
       "Bash(gh api:*)",
       "WebFetch(domain:analyticinterp.github.io)",
       "WebFetch(domain:github.com)",
-      "WebFetch(domain:giscus.app)"
+      "WebFetch(domain:giscus.app)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []

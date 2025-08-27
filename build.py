@@ -244,7 +244,7 @@ def generate_index(posts, output_dir):
                     'date': '',
                     'sequence_color': None,
                     'sequence_color_dark': None,
-                    'sequence_emoji': None,
+                    'sequence_emoji': post.get('emoji', None),
                     'posts': []
                 }
         
@@ -316,10 +316,16 @@ def generate_index(posts, output_dir):
         else:
             css_class_attr = 'sequence-box'
         
-        # Add emoji if available
+        # Add emoji or icon if available
         title_with_emoji = sequence['title']
         if sequence.get('sequence_emoji'):
-            title_with_emoji = f"{sequence['sequence_emoji']} {sequence['title']}"
+            emoji = sequence['sequence_emoji']
+            if emoji.startswith('fa-'):
+                # Font Awesome icon
+                title_with_emoji = f'<i class="fas {emoji}"></i> {sequence["title"]}'
+            else:
+                # Regular emoji
+                title_with_emoji = f"{emoji} {sequence['title']}"
         
         sequence_html = f'''      <div class="{css_class_attr}" onclick="location.href='{first_post_url}'">
         <div class="sequence-title">{title_with_emoji}</div>'''
