@@ -176,9 +176,9 @@
       <p><strong>Open question:</strong> is there a nontrivial counterexample for which deeper is not better?</p>
       </div>
       <h3 id="batch-size-learning-rate-and-total-training-time">Batch size, learning rate, and total training time</h3>
-      <p>[Blake to write plz]</p>
+      <p>???????</p>
       <h3 id="transformer-specific-hyperparameters">Transformer-specific hyperparameters</h3>
-      <p>[Blake to write plz]</p>
+      <p>???????</p>
       <h3 id="activation-function">Activation function</h3>
       <p>This was probably the first seriously debated hyperparameter. It’s pretty easy to come up with new activation functions, and so there are many: classics like tanh and the sigmoid gave way to ReLU, and now we have variants including ELU, GELU, SELU, SwiGLU. Practically speaking, the upshot is that ReLU works pretty well, and you don’t need to look far from it.</p>
       <p>Why ReLU basically just works for everything remains poorly understood. A pretty good starting point is the deep information propagation analysis of <a href="https://arxiv.org/abs/1611.01232?">[Schoenholz et al. (2016)]</a>. Sitting with this for some time, you’ll find that ReLU has some desirable stability properties: it’s easy to initialize at the edge of chaos, and ReLU’s homogeneity means that the activation function “looks interesting” no matter the scale of the input. Nonetheless, despite a lot of effort in the late 2010s, people have basically stopped asking why ReLU is so good. We’ll list it here as an open question.</p>

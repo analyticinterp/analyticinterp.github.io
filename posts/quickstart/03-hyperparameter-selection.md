@@ -172,11 +172,11 @@ The proper way to take depth to infinity involves a *ResNet formulation* with *d
 
 ### Batch size, learning rate, and total training time
 
-[Blake to write plz]
+???????
 
 ### Transformer-specific hyperparameters
 
-[Blake to write plz]
+???????
 
 ### Activation function
 
