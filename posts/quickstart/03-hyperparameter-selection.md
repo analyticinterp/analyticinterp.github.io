@@ -11,7 +11,7 @@ sequence_order: 3
 
 Training a neural network is a strange and mysterious process: a bewildering cavalcade of tensors is randomly initialized and subject to repeated gradient updates, and as a consequence of these simple operations, the whole thing *learns*. Meanwhile, before the process begins, you have to set your learning rate and some other fiddly knobs and dials. In comparison with the weights themselves, these hyperparameters might seem drab, technical and mundane; does a serious deep learning theorist really need to bother with them? It turns out the answer is emphatically “yes”: not only is the study of hyperparameters the easiest place for theory to make a practical impact, it’s also essential for the rest of the field, since any hyperparameter you can’t control for will interfere with your attempts to study anything else.
 
-While most hyperparameters are still waiting for good theory, we understand a few. We’ll explain how theorists currently think about hyperparmeters, list off the successes, and point out some frontiers. This chapter will be comparatively long, so we'll start with a table of contents.
+While most hyperparameters are still waiting for good theory, we understand a few. We'll explain how theorists currently think about hyperparameters, list off the successes, and point out some frontiers. This chapter will be comparatively long, so we'll start with a table of contents.
 
 <div class="sequence-toc">
 <h3>Want to understand hyperparameter selection?</h3>
@@ -107,7 +107,7 @@ There's a great deal of interesting and poorly-understood behavior in this "ultr
 
 The ultra-rich regime is essentially the same as the small-initialization or "saddle-to-saddle" regime, which has been studied since before $\mu$P.
 - [[Jacot et al. (2021)]](https://arxiv.org/abs/2106.15933) coin the term "saddle-to-saddle" and describe the evolution of deep linear networks in this regime. They find a "greedy low-rank dynamics" and stepwise loss curves similar to those later seen in the ultra-rich regime.
-We will revist saddle-to-saddle dynamics in the (next chapter)[LINK].
+We will revisit saddle-to-saddle dynamics in the [next chapter](optimization.html).
 
 
 
