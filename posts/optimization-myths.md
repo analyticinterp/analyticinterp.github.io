@@ -2,7 +2,7 @@
 title: "Three Myths about Optimization in Deep Learning"
 description: ""
 date: "2025-08-22"
-emoji: "📉"
+<!-- emoji: "📉" -->
 author: "Jeremy Cohen"
 ---
 
